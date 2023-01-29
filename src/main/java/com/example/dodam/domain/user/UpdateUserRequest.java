@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserDto {
+public class UpdateUserRequest {
     private String email;
     private String password;
     private String phone;
@@ -23,7 +23,7 @@ public class UpdateUserDto {
     private LocalDateTime updateAt;
     private LocalDateTime startAt;
 
-    public User toEntity() {
+    public User toUser() {
         return User.builder()
             .password(password)
             .email(email)

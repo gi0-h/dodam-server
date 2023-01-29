@@ -1,16 +1,17 @@
 package com.example.dodam.repository.user;
 
-import com.example.dodam.domain.user.UpdateUserDto;
 import com.example.dodam.domain.user.User;
+import com.example.dodam.utils.QueryGenerator;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -20,19 +21,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Repository
 public class JdbcUserRepository implements UserRepository {
+    private static final String TABLE = "USER";
 
     private final NamedParameterJdbcTemplate template;
-    private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
     public JdbcUserRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.template = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
-            .withTableName("USER")
+            .withTableName(TABLE)
             .usingGeneratedKeyColumns("id")
             .usingColumns("email", "password", "phone", "nickname", "status", "imgPath", "role",
-                "birthdate", "createAt", "updateAt", "startDate");
+                "birthdate", "updateAt", "startDate");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     @Transactional
-    public void delete(Long userid) {
+    public void deleteById(Long userid) {
         String sql = "delete from user where id = :id";
         Map<String, Object> param = Map.of("id", userid);
         template.update(sql, param);
@@ -68,8 +68,15 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     @Transactional
-    public User Update(String userid, UpdateUserDto userDto) {
-        return userDto.toEntity();
+    public User Update(Long id, User user) {
+        user.setUpdateAt(LocalDateTime.now());
+        QueryGenerator<User> generator = new QueryGenerator<>(user);
+        String sql = generator.generateDynamicUpdateQuery(TABLE, "where id = :id");
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValues(generator.generateParams()).addValues(Map.of("id", id));
+        log.debug("sql={}, params={}", sql, param);
+        template.update(sql, param);
+        return user;
     }
 
     @Override
