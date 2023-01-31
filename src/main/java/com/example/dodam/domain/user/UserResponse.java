@@ -20,6 +20,7 @@ public class UserResponse {
     private String nickname;
     private LocalDateTime startAt;
     private LocalDate birthDate;
+    private String imgPath;
 
     public static UserResponse of(User user) {
         return UserResponse.builder()
@@ -28,6 +29,7 @@ public class UserResponse {
             .nickname(user.getNickname())
             .startAt(user.getStartAt())
             .birthDate(user.getBirthDate())
+            .imgPath(user.getImgPath())
             .build();
     }
 }

@@ -1,12 +1,14 @@
 package com.example.dodam.domain.user;
 
 import java.time.LocalDate;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Builder
@@ -15,7 +17,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
-    @NotBlank
+
+    @Email
     private String email;
     @NotBlank
     private String password;
@@ -23,7 +26,9 @@ public class RegisterRequest {
     private String nickname;
     private String phone;
     private LocalDate birthDate;
-    private String imgPath;
+    private MultipartFile profileImage;
+
+    private String imagePath;
 
     public User toUser() {
         return User.builder()
@@ -32,7 +37,7 @@ public class RegisterRequest {
             .phone(phone)
             .nickname(nickname)
             .birthDate(birthDate)
-            .imgPath(imgPath)
+            .imgPath(imagePath)
             .build();
     }
 }

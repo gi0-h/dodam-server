@@ -17,11 +17,8 @@ public class RegisterService {
     private final UserRepository userRepository;
 
     public User register(RegisterRequest registerRequest) {
-        log.debug("email = {}", registerRequest.getEmail() );
         validateRegisterRequest(registerRequest);
-        User user = registerRequest.toUser();
-        user.setRole("ROLE_USER");
-        user.setStatus("A");
+        User user = extractUser(registerRequest);
         log.debug("user = {}", user);
         return userRepository.save(user);
     }
@@ -49,5 +46,12 @@ public class RegisterService {
         if (userRepository.findByNickName(nickname).isPresent()) {
             throw new RegisterException(ErrorCode.DUPLICATED_NICKNAME);
         }
+    }
+
+    private User extractUser(RegisterRequest request) {
+        User user = request.toUser();
+        user.setRole("ROLE_USER");
+        user.setStatus("A");
+        return user;
     }
 }
