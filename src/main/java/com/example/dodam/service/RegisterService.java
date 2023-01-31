@@ -1,7 +1,7 @@
 package com.example.dodam.service;
 
-import com.example.dodam.exception.RegisterException;
-import com.example.dodam.exception.ErrorCode;
+import com.example.dodam.common.exception.RegisterException;
+import com.example.dodam.common.exception.ErrorCode;
 import com.example.dodam.domain.user.RegisterRequest;
 import com.example.dodam.domain.user.User;
 import com.example.dodam.repository.user.UserRepository;

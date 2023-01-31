@@ -3,7 +3,7 @@ package com.example.dodam.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.example.dodam.exception.RegisterException;
+import com.example.dodam.common.exception.RegisterException;
 import com.example.dodam.domain.user.RegisterRequest;
 import com.example.dodam.domain.user.User;
 import com.example.dodam.repository.user.UserRepository;

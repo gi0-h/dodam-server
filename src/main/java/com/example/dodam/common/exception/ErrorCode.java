@@ -1,4 +1,4 @@
-package com.example.dodam.exception;
+package com.example.dodam.common.exception;
 
 public enum ErrorCode {
 

@@ -1,4 +1,4 @@
-package com.example.dodam.exception;
+package com.example.dodam.common.exception;
 
 public class RegisterException extends RuntimeException{
     private final ErrorCode errorCode;
