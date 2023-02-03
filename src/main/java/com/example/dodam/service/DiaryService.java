@@ -30,6 +30,13 @@ public class DiaryService {
         return diary.getId();
     }
 
+    public Integer updateDiary(Diary diary){
+        //존재하는 다이어리인지 확인
+        diaryRepository.updateDiary(diary);
+        return diary.getId();
+
+    }
+
     // 다이어리 중복 여부 확인
     private void validateDuplicateDiary(Diary diary) {
         String diaryDate = diary.getDate().toInstant()

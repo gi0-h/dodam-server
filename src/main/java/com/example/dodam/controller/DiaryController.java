@@ -3,10 +3,7 @@ package com.example.dodam.controller;
 import com.example.dodam.domain.model.Diary;
 import com.example.dodam.service.DiaryService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -42,6 +39,12 @@ public class DiaryController {
     public String addDiary(@RequestBody Diary diary){
         diaryService.addDiary((diary));
 
+        return "성공";
+    }
+
+    @PutMapping("/diary")
+    public String putDiary(@RequestBody Diary diary){
+        diaryService.updateDiary(diary);
         return "성공";
     }
 

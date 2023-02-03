@@ -37,6 +37,13 @@ public class JdbcDiaryRepository implements DiaryRepository {
         return diary;
     }
 
+    @Override
+    public String updateDiary(Diary diary) {
+        Integer diaryId = diary.getId();
+        jdbcTemplate.update("update diary set title = ?,imgPath = ?,oneWord = ? , feel = ? where id = ?",diary.getTitle(),diary.getImgPath(),diary.getOneWord(),diary.getFeel(),diary.getId());
+        return "ok";
+    }
+
 
     @Override
     public Optional<Diary>  findByDate(String date){
