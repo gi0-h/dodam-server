@@ -1,4 +1,4 @@
-package com.example.dodam.domain.sms;
+package com.example.dodam.domain.sms.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VerificationRequest {
-    private String phone;
-    private String verificationCode;
+public class VerificationResponse {
+    private String message;
+    private String status;
 }

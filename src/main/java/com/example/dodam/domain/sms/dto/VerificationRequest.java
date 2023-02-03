@@ -1,15 +1,15 @@
-package com.example.dodam.domain.sms;
+package com.example.dodam.domain.sms.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SmsMessage {
-    private String to;
-    private String content;
+public class VerificationRequest {
+    private String phone;
+    private String code;
 }

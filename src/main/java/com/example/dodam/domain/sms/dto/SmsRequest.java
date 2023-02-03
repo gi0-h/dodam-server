@@ -1,5 +1,6 @@
-package com.example.dodam.domain.sms;
+package com.example.dodam.domain.sms.dto;
 
+import com.example.dodam.domain.sms.dto.SmsMessage;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.dodam.domain.sms;
+package com.example.dodam.domain.sms.dto;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
