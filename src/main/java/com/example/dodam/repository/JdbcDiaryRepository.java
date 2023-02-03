@@ -20,7 +20,7 @@ public class JdbcDiaryRepository implements DiaryRepository {
     }
 
 
-
+    //다이어리 등록
     @Override
     public Diary save(Diary diary) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -37,6 +37,7 @@ public class JdbcDiaryRepository implements DiaryRepository {
         return diary;
     }
 
+    //다이어리 수정
     @Override
     public String updateDiary(Diary diary) {
         Integer diaryId = diary.getId();
@@ -44,13 +45,22 @@ public class JdbcDiaryRepository implements DiaryRepository {
         return "ok";
     }
 
+    //다이어리 삭제
+    @Override
+    public String deleteDiary(Integer id) {
+        jdbcTemplate.update("delete from diary where id = ?",id);
+        return "ok";
+    }
 
+
+    // 원하는 다이어리 찾기
     @Override
     public Optional<Diary>  findByDate(String date){
         List<Diary> result = jdbcTemplate.query("select * from diary where date = ?",diaryRowmapper(),date);
         return result.stream().findAny();
     }
 
+    //다이어리 리스트 조회
     @Override
     public List<Diary> findAll() {
         return jdbcTemplate.query("select * from diary", diaryRowmapper());

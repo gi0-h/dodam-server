@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface DiaryRepository {
     Diary save(Diary diary);
     String updateDiary(Diary diary);
+    String deleteDiary(Integer id);
     Optional<Diary>  findByDate(String date);
     List<Diary> findAll();
 }

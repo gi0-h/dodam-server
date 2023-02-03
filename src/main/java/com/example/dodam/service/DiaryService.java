@@ -29,12 +29,18 @@ public class DiaryService {
         diaryRepository.save(diary);
         return diary.getId();
     }
-
+    // 다이어리 수정
     public Integer updateDiary(Diary diary){
         //존재하는 다이어리인지 확인
         diaryRepository.updateDiary(diary);
         return diary.getId();
 
+    }
+
+    //다이어리 삭제
+    public Integer deleteDiary(Integer id){
+        diaryRepository.deleteDiary(id);
+        return id;
     }
 
     // 다이어리 중복 여부 확인

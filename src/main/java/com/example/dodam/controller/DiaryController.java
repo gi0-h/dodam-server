@@ -48,6 +48,13 @@ public class DiaryController {
         return "성공";
     }
 
+    @DeleteMapping("/diary/{id}")
+    public String deleteDiary(@PathVariable Integer id){
+        //해당 id 다이어리 존재 여부 확인
+        diaryService.deleteDiary(id);
+        return "성공";
+    }
+
 //    @GetMapping("/diary")
 //    public Diary getDiary(){
 //        Diary diary = new Diary();
