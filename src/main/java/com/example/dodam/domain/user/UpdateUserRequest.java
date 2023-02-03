@@ -2,23 +2,32 @@ package com.example.dodam.domain.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateUserRequest {
-    private String email;
+    @Email
+    private String originalEmail;
+    @Email
+    private String newEmail;
     private String password;
     private String phone;
     private String nickname;
     private String status;
     private String imgPath;
     private String role;
+    private MultipartFile profileImage;
     private LocalDate birthDate;
     private LocalDateTime updateAt;
     private LocalDateTime startAt;
@@ -26,7 +35,7 @@ public class UpdateUserRequest {
     public User toUser() {
         return User.builder()
             .password(password)
-            .email(email)
+            .email(newEmail)
             .phone(phone)
             .nickname(nickname)
             .status(status)

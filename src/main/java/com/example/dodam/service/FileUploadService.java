@@ -25,13 +25,14 @@ public class FileUploadService {
 
     public String storeFile(MultipartFile multipartFile) throws IOException {
 
-        if (multipartFile.isEmpty()) {
+        if (multipartFile == null) {
+            return null;
+        } else if (multipartFile.isEmpty()) {
             return null;
         }
 
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
         return storeFileName;
     }
