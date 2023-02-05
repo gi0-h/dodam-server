@@ -1,6 +1,7 @@
 package com.example.dodam.repository;
 
 import com.example.dodam.model.Inquiry;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,4 +11,6 @@ public interface InquiryRepository {
     Optional<Inquiry> deleteById(Long id);
     List<Inquiry> findAll();
 
+    @Transactional
+    Inquiry update(Long id, Inquiry inquiry);
 }

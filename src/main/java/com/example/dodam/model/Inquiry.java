@@ -1,6 +1,8 @@
 package com.example.dodam.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,8 +24,8 @@ public class Inquiry {
     private String answer;
     private String status;
     private String category;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
     private String imgPath;
 
 }

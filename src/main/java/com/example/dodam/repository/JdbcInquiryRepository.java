@@ -2,17 +2,17 @@ package com.example.dodam.repository;
 
 import com.example.dodam.model.Inquiry;
 //import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class JdbcInquiryRepository implements InquiryRepository{
@@ -33,21 +33,9 @@ public class JdbcInquiryRepository implements InquiryRepository{
 
     @Override
     public Inquiry save(Inquiry inquiry) {
-//        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-//        jdbcInsert.withTableName("inquiry").usingGeneratedKeyColumns("id");
-//        Map<String, Object> parameters = new HashMap<>();
-//        parameters.put("userId", inquiry.getUserId());
-//        parameters.put("title", inquiry.getTitle());
-//        parameters.put("content", inquiry.getContent());
-//        parameters.put("answer", inquiry.getAnswer());
-//        parameters.put("status", inquiry.getStatus());
-//        parameters.put("category", inquiry.getCategory());
-//        parameters.put("createAt", inquiry.getCreateAt());
-//        parameters.put("updateAt", inquiry.getUpdateAt());
-//        parameters.put("imgPath", inquiry.getImgPath());
-//
-//        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-//        inquiry.setId(key.longValue());
+
+        inquiry.setCreateAt(LocalDateTime.now());
+        inquiry.setUpdateAt(LocalDateTime.now());
         SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);
         Number key = jdbcInsert.executeAndReturnKey(param);
         inquiry.setId(key.longValue());
@@ -68,23 +56,22 @@ public class JdbcInquiryRepository implements InquiryRepository{
 
     @Override
     public List<Inquiry> findAll() {
-        return jdbcTemplate.query("select * from inquiry", inquiryRowmapper());
+        return jdbcTemplate.query("select title from inquiry", inquiryRowmapper());
     }
 
-    private RowMapper<Inquiry> inquiryRowmapper(){
-        return (rs, rowNum) -> {
-            Inquiry inquiry = new Inquiry();
-            inquiry.setId(rs.getLong("id"));
-            inquiry.setUserId((int) rs.getLong("userId"));
-            inquiry.setTitle(rs.getString("title"));
-            inquiry.setContent(rs.getString("content"));
-            inquiry.setAnswer(rs.getString("answer"));
-            inquiry.setStatus(rs.getString("status"));
-            inquiry.setCategory(rs.getString("category"));
-            inquiry.setCreateAt(rs.getTimestamp("createAt"));
-            inquiry.setUpdateAt(rs.getTimestamp("updateAt"));
-            inquiry.setImgPath(rs.getString("imgPath"));
-            return inquiry;
-        };
+
+    @Override
+    @Transactional
+    public Inquiry update(Long id, Inquiry inquiry) {
+
+        inquiry.setUpdateAt(LocalDateTime.now());
+        jdbcTemplate.update("update inquiry set title = ?, content = ?, imgPath = ?,category = ? , answer = ? where id = ?",inquiry.getTitle(),inquiry.getContent(),inquiry.getImgPath(),inquiry.getCategory(),inquiry.getAnswer(),id);
+        return inquiry;
+    }
+
+
+    private RowMapper<Inquiry> inquiryRowmapper() {
+        return BeanPropertyRowMapper.newInstance(Inquiry.class);
     }
 }
+

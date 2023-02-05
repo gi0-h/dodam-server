@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-//@RequiredArgsConstructor // @Non null + static 생성자
 @RestController
 public class InquiryController {
 
@@ -48,7 +46,7 @@ public class InquiryController {
 
     // REST API -> JSON 형식으로 데이터를 받아야한다.
     // @RequestBody Entity entity -> JSON 형식인 데이터를, 자바 타입으로 바꿔준다.
-    @PostMapping("/inquiry")
+    @PostMapping("/inquiry/new")
     public ResponseEntity<?> save(@RequestBody Inquiry inquiry) {
         return new ResponseEntity<>(inquiryService.save(inquiry), HttpStatus.CREATED);
     }
@@ -57,16 +55,16 @@ public class InquiryController {
     // PUT 게시글 수정
     // ex) localhost:8080/boards/3
     // 게시글 수정하고 -> 완료 버튼을 누른다 -> 백엔드 서버 요청 (id, updateInquiry)
-    @PutMapping("/inquiries/{id}")
-    public ResponseEntity<?> editInquiry(@PathVariable("id") Long id, @RequestBody Inquiry updateInquiry) {
-        return new ResponseEntity<>(inquiryService.editInquiry(id, updateInquiry), HttpStatus.OK);
+    @PutMapping("/inquiry/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Inquiry updateInquiry) {
+        return new ResponseEntity<>(inquiryService.update(id, updateInquiry), HttpStatus.OK);
     }
 
 
     // DELETE 게시글 삭제
     // ex) localhost:8080/boards/3
     // 게시글 삭제하기
-    @DeleteMapping("/inquiries/{id}")
+    @DeleteMapping("/inquiry/{id}")
     public ResponseEntity<?> deleteInquiry(@PathVariable("id") Long id) {
         inquiryService.deleteInquiry(id);
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
