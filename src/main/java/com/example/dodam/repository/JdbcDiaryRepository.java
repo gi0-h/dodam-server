@@ -1,4 +1,5 @@
 package com.example.dodam.repository;
+import com.example.dodam.domain.model.DiaryDetail;
 import com.example.dodam.domain.model.DiaryList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -66,6 +67,22 @@ public class JdbcDiaryRepository implements DiaryRepository {
     public List<DiaryList> findAll(Integer id ) {
         return jdbcTemplate.query("select id,date,feel from diary where userId = ?", diaryListRowmapper(),id);
     }
+    //다이어리 조회
+    @Override
+    public DiaryDetail findDiary(Integer id ) {
+        // jdbcTemplate.queryForObject("select id,title,content,imgPath,oneWord from diary where id = ?", DiaryDetail.class,id);
+        List<DiaryDetail> diaryList = jdbcTemplate.query("select id,title,content,imgPath,oneWord from diary where id = ?", diaryDetailRowmapper(),id);
+        if (diaryList.size() == 1) {
+            return diaryList.get(0);
+        }else {
+            //예외처리 해야함
+            return new DiaryDetail();
+        }
+
+
+    }
+
+
 
     private RowMapper<Diary> diaryRowmapper(){
         return (rs, rowNum) -> {
@@ -86,6 +103,18 @@ public class JdbcDiaryRepository implements DiaryRepository {
             diary.setId((int) rs.getLong("id"));
             diary.setDate(rs.getDate("date"));
             diary.setFeel(rs.getString("feel"));
+            return diary;
+        };
+    }
+    private RowMapper<DiaryDetail> diaryDetailRowmapper(){
+        return (rs, rowNum) -> {
+            DiaryDetail diary = new DiaryDetail();
+            diary.setId((int) rs.getLong("id"));
+            diary.setTitle(rs.getString("title"));
+            diary.setContent(rs.getString("content"));
+            diary.setImgPath(rs.getString("imgPath"));
+            diary.setOneWord(rs.getString("oneWord"));
+
             return diary;
         };
     }

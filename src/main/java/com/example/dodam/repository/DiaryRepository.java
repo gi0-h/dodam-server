@@ -1,6 +1,7 @@
 package com.example.dodam.repository;
 
 import com.example.dodam.domain.model.Diary;
+import com.example.dodam.domain.model.DiaryDetail;
 import com.example.dodam.domain.model.DiaryList;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface DiaryRepository {
     String deleteDiary(Integer id);
     Optional<Diary>  findByDate(String date);
     List<DiaryList> findAll(Integer id);
+    DiaryDetail findDiary(Integer id);
 }

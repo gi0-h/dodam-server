@@ -1,6 +1,7 @@
 package com.example.dodam.controller;
 
 import com.example.dodam.domain.model.Diary;
+import com.example.dodam.domain.model.DiaryDetail;
 import com.example.dodam.domain.model.DiaryList;
 import com.example.dodam.service.DiaryService;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -23,17 +25,17 @@ public class DiaryController {
 
     // 다이어리 목록 조회
     @GetMapping("/diary/{id}")
-    public List<DiaryList> getDiary(@PathVariable Integer id){
+    public List<DiaryList> getDiaryList(@PathVariable Integer id){
         List<DiaryList>  diaryList = diaryService.findDiarys(id);
         return diaryList;
     }
 
-//    // 다이어리 디테일 조회
-//    @GetMapping("/diary/ㅇ{id}")
-//    public List<DiaryList> getDiary(@PathVariable Integer id){
-//        List<DiaryList>  diaryList = diaryService.findDiarys(id);
-//        return diaryList;
-//    }
+    // 다이어리 디테일 조회
+    @GetMapping("/diary/detail/{id}")
+    public Optional<DiaryDetail> getDiaryDetail(@PathVariable Integer id){
+        Optional<DiaryDetail> diaryList = diaryService.findDiary(id);
+        return diaryList;
+    }
 
     //다이어리 등록
 //    @PostMapping("members/new")

@@ -9,9 +9,10 @@ import java.util.Date;
 @Setter
 public class DiaryDetail {
     public Integer id;
-    public Date date;
+    public String title;
     public String imgPath;
     public String oneWord;
+    public String content;
 
 
 }

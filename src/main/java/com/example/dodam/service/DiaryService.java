@@ -1,6 +1,7 @@
 package com.example.dodam.service;
 
 import com.example.dodam.domain.model.Diary;
+import com.example.dodam.domain.model.DiaryDetail;
 import com.example.dodam.domain.model.DiaryList;
 import com.example.dodam.repository.DiaryRepository;
 
@@ -8,6 +9,7 @@ import com.example.dodam.repository.DiaryRepository;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 public class DiaryService {
 
@@ -21,6 +23,10 @@ public class DiaryService {
     //다이어리 목록 조회
     public List<DiaryList> findDiarys(Integer id ){
         return diaryRepository.findAll(id);
+    }
+    //다이어리 조회
+    public Optional<DiaryDetail> findDiary(Integer id ){
+        return Optional.of(diaryRepository.findDiary(id));
     }
 
     //다이어리 등록
