@@ -1,6 +1,7 @@
 package com.example.dodam.service;
 
 import com.example.dodam.domain.model.Diary;
+import com.example.dodam.domain.model.DiaryList;
 import com.example.dodam.repository.DiaryRepository;
 
 
@@ -18,8 +19,8 @@ public class DiaryService {
 
 
     //다이어리 목록 조회
-    public List<Diary> findDiarys(){
-        return diaryRepository.findAll();
+    public List<DiaryList> findDiarys(Integer id ){
+        return diaryRepository.findAll(id);
     }
 
     //다이어리 등록

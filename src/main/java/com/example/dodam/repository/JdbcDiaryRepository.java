@@ -1,4 +1,5 @@
 package com.example.dodam.repository;
+import com.example.dodam.domain.model.DiaryList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.example.dodam.domain.model.Diary;
@@ -62,8 +63,8 @@ public class JdbcDiaryRepository implements DiaryRepository {
 
     //다이어리 리스트 조회
     @Override
-    public List<Diary> findAll() {
-        return jdbcTemplate.query("select * from diary", diaryRowmapper());
+    public List<DiaryList> findAll(Integer id ) {
+        return jdbcTemplate.query("select id,date,feel from diary where userId = ?", diaryListRowmapper(),id);
     }
 
     private RowMapper<Diary> diaryRowmapper(){
@@ -76,6 +77,15 @@ public class JdbcDiaryRepository implements DiaryRepository {
             diary.setFeel(rs.getString("feel"));
             diary.setOneWord(rs.getString("oneWord"));
             diary.setImgPath(rs.getString("imgPath"));
+            return diary;
+        };
+    }
+    private RowMapper<DiaryList> diaryListRowmapper(){
+        return (rs, rowNum) -> {
+            DiaryList diary = new DiaryList();
+            diary.setId((int) rs.getLong("id"));
+            diary.setDate(rs.getDate("date"));
+            diary.setFeel(rs.getString("feel"));
             return diary;
         };
     }
