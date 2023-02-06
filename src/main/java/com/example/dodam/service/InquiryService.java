@@ -1,6 +1,7 @@
 package com.example.dodam.service;
 
 import com.example.dodam.InquiriesDto;
+import com.example.dodam.InquiryDto;
 import com.example.dodam.model.Inquiry;
 import com.example.dodam.repository.InquiryRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +22,15 @@ public class InquiryService {
     public List<InquiriesDto> getInquiries() {
         List<Inquiry> inquiries = inquiryRepository.findAll();
         List<InquiriesDto> inquiriesDtos = new ArrayList<>();
-        inquiries.forEach(s-> inquiriesDtos.add(InquiriesDto.Dto(s)));
+        inquiries.forEach(s-> inquiriesDtos.add(InquiriesDto.inquiriesDto(s)));
         return inquiriesDtos;
     }
 
     @Transactional(readOnly = true)
-    public Inquiry getInquiry(Long id) {
+    public InquiryDto getInquiry(Long id) {
         Inquiry inquiry = inquiryRepository.findById(id).get();
-        return inquiry;
+        InquiryDto inquiryDto = InquiryDto.inquiryDto(inquiry);
+        return inquiryDto;
     }
 
     @Transactional

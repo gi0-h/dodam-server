@@ -19,7 +19,7 @@ public class InquiriesDto {
     첫 문의사항 페이지의 사용자 별 문의사항 리스트 출력시 사용되는 Dto
     각 문의사항의 제목과 작성날짜, 답변유무인 status만을 출력
      */
-    public static InquiriesDto Dto(Inquiry inquiry) {
+    public static InquiriesDto inquiriesDto(Inquiry inquiry) {
         return new InquiriesDto(
                 inquiry.getTitle(),
                 inquiry.isStatus(),
