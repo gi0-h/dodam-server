@@ -56,9 +56,8 @@ public class JdbcInquiryRepository implements InquiryRepository{
 
     @Override
     public List<Inquiry> findAll() {
-        return jdbcTemplate.query("select title from inquiry", inquiryRowmapper());
+        return jdbcTemplate.query("select title from inquiry", inquiryRowmapper()); //userId에 해당하는 문의사항만 출력 select title from inquiry where userId = ?
     }
-
 
     @Override
     @Transactional

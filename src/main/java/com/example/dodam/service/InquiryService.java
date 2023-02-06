@@ -1,11 +1,11 @@
 package com.example.dodam.service;
 
+import com.example.dodam.InquiriesDto;
 import com.example.dodam.model.Inquiry;
 import com.example.dodam.repository.InquiryRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,9 +18,11 @@ public class InquiryService {
         this.inquiryRepository = inquiryRepository;
     }
     @Transactional(readOnly = true)
-    public List<Inquiry> getInquiries() {
+    public List<InquiriesDto> getInquiries() {
         List<Inquiry> inquiries = inquiryRepository.findAll();
-        return inquiries;
+        List<InquiriesDto> inquiriesDtos = new ArrayList<>();
+        inquiries.forEach(s-> inquiriesDtos.add(InquiriesDto.Dto(s)));
+        return inquiriesDtos;
     }
 
     @Transactional(readOnly = true)
@@ -35,7 +37,6 @@ public class InquiryService {
     }
 
     @Transactional
-    // Transactional 을 붙이면 더티체킹이 일어나서, 저장하지 않아도 메서드가 성공적으로 끝나면 저장이 된다.
     public Inquiry update(Long id, Inquiry updateInquiry) {
         return inquiryRepository.update(id, updateInquiry);
     }
