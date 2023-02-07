@@ -1,6 +1,6 @@
 package com.example.dodam.controller;
 
-import com.example.dodam.model.Inquiry;
+import com.example.dodam.domain.Inquiry;
 import com.example.dodam.service.InquiryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

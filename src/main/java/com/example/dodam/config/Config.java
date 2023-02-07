@@ -1,4 +1,4 @@
-package com.example.dodam;
+package com.example.dodam.config;
 
 import com.example.dodam.repository.InquiryRepository;
 import com.example.dodam.repository.JdbcInquiryRepository;

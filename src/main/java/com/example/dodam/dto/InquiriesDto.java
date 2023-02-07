@@ -1,6 +1,6 @@
-package com.example.dodam;
+package com.example.dodam.dto;
 
-import com.example.dodam.model.Inquiry;
+import com.example.dodam.domain.Inquiry;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

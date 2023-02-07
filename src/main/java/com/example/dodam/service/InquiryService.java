@@ -1,8 +1,8 @@
 package com.example.dodam.service;
 
-import com.example.dodam.InquiriesDto;
-import com.example.dodam.InquiryDto;
-import com.example.dodam.model.Inquiry;
+import com.example.dodam.dto.InquiriesDto;
+import com.example.dodam.dto.InquiryDto;
+import com.example.dodam.domain.Inquiry;
 import com.example.dodam.repository.InquiryRepository;
 import org.springframework.transaction.annotation.Transactional;
 

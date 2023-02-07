@@ -1,6 +1,6 @@
 package com.example.dodam.repository;
 
-import com.example.dodam.model.Inquiry;
+import com.example.dodam.domain.Inquiry;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

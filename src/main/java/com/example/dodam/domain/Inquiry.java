@@ -1,6 +1,5 @@
-package com.example.dodam.model;
+package com.example.dodam.domain;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
