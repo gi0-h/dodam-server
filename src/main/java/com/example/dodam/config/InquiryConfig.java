@@ -1,17 +1,17 @@
 package com.example.dodam.config;
 
-import com.example.dodam.repository.InquiryRepository;
-import com.example.dodam.repository.JdbcInquiryRepository;
-import com.example.dodam.service.InquiryService;
+import com.example.dodam.repository.inquiry.InquiryRepository;
+import com.example.dodam.repository.inquiry.JdbcInquiryRepository;
+import com.example.dodam.service.inquiry.InquiryService;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 
 @org.springframework.context.annotation.Configuration
-public class Config {
+public class InquiryConfig {
     private final DataSource dataSource;
 
-    public Config(DataSource dataSource) {
+    public InquiryConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

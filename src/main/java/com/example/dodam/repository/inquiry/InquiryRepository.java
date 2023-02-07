@@ -1,6 +1,6 @@
-package com.example.dodam.repository;
+package com.example.dodam.repository.inquiry;
 
-import com.example.dodam.domain.Inquiry;
+import com.example.dodam.domain.inquiry.Inquiry;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
