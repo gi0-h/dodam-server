@@ -24,9 +24,9 @@ public class InquiryController {
 
     // localhost:8080/inquiries
     // 전체 게시물 조회
-    @GetMapping("/inquiries")
-    public ResponseEntity<?> getInquries() {
-        return new ResponseEntity<>(inquiryService.getInquiries(), HttpStatus.OK);
+    @GetMapping("/inquiries/{userId}")
+    public ResponseEntity<?> getInquries(@PathVariable("userId") Long userId) {
+        return new ResponseEntity<>(inquiryService.getInquiries(userId), HttpStatus.OK);
     }
 
 

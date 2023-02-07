@@ -9,7 +9,7 @@ public interface InquiryRepository {
     Inquiry save(Inquiry inquiry);
     Optional<Inquiry> findById(Long id);
     Optional<Inquiry> deleteById(Long id);
-    List<Inquiry> findAll();
+    List<Inquiry> findAll(Long userId);
 
     @Transactional
     Inquiry update(Long id, Inquiry inquiry);

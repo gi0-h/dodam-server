@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Inquiry {
     private Long id;
-    private int userId;
+    private Long userId;
     private String title;
     private String content;
     private String answer;
