@@ -1,9 +1,9 @@
 package com.example.dodam.repository;
-import com.example.dodam.domain.model.DiaryDetail;
-import com.example.dodam.domain.model.DiaryList;
+import com.example.dodam.domain.diary.DiaryDetail;
+import com.example.dodam.domain.diary.DiaryList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import com.example.dodam.domain.model.Diary;
+import com.example.dodam.domain.diary.Diary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;

@@ -1,13 +1,13 @@
 package com.example.dodam.controller;
 
-import com.example.dodam.domain.model.*;
+import com.example.dodam.domain.diary.Diary;
+import com.example.dodam.domain.diary.DiaryDetail;
+import com.example.dodam.domain.diary.DiaryDetailImg;
+import com.example.dodam.domain.diary.DiaryList;
 import com.example.dodam.service.DiaryService;
-import org.apache.catalina.connector.Response;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

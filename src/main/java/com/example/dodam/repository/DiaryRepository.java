@@ -1,8 +1,8 @@
 package com.example.dodam.repository;
 
-import com.example.dodam.domain.model.Diary;
-import com.example.dodam.domain.model.DiaryDetail;
-import com.example.dodam.domain.model.DiaryList;
+import com.example.dodam.domain.diary.Diary;
+import com.example.dodam.domain.diary.DiaryDetail;
+import com.example.dodam.domain.diary.DiaryList;
 
 import java.util.List;
 import java.util.Optional;
