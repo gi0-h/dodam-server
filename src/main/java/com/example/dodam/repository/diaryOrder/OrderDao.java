@@ -1,4 +1,4 @@
-package com.example.dodam;
+package com.example.dodam.repository.diaryOrder;
 
 import com.example.dodam.model.*;
 import org.springframework.beans.factory.annotation.Autowired;

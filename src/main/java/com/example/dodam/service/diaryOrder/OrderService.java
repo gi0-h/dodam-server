@@ -1,5 +1,6 @@
-package com.example.dodam;
+package com.example.dodam.service.diaryOrder;
 
+import com.example.dodam.repository.diaryOrder.OrderDao;
 import com.example.dodam.config.BaseException;
 import com.example.dodam.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
