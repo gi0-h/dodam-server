@@ -4,8 +4,11 @@ import com.example.dodam.domain.model.Diary;
 import com.example.dodam.domain.model.DiaryDetail;
 import com.example.dodam.domain.model.DiaryList;
 import com.example.dodam.repository.DiaryRepository;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -59,6 +62,40 @@ public class DiaryService {
             throw new IllegalStateException("이미 존재하는 다이어리");
 
         });
+    }
+
+    public String saveDiaryImag( MultipartFile imgFile) throws Exception{
+        String imagePath = null ;
+        String absolutePath = new File("").getAbsolutePath()+"\\" ;
+        String path = "image/diary";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        if (!imgFile.isEmpty()) {
+            String contentType = imgFile.getContentType();
+            String originalFileExtension;
+            if (ObjectUtils.isEmpty(contentType)) {
+                throw new Exception("이미지 파일은 jpg, png 만 가능합니다.");
+            } else {
+                if (contentType.contains("image/jpeg")) {
+                    originalFileExtension = ".jpg";
+                } else if (contentType.contains("image/png")) {
+                    originalFileExtension = ".png";
+                } else {
+                    throw new Exception("이미지 파일은 jpg, png 만 가능합니다.");
+                }
+            }
+//            imagePath = path + "/" + "0" + originalFileExtension;
+            imagePath = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+ "0" + originalFileExtension;
+            file = new File(imagePath);
+            imgFile.transferTo(file);
+        }
+        else {
+            throw new Exception("이미지 파일이 비어있습니다.");
+        }
+
+        return imagePath;
     }
 
 

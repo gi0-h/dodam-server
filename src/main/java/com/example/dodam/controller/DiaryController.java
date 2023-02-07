@@ -3,9 +3,11 @@ package com.example.dodam.controller;
 import com.example.dodam.domain.model.Diary;
 import com.example.dodam.domain.model.DiaryDetail;
 import com.example.dodam.domain.model.DiaryList;
+import com.example.dodam.domain.model.Diaryimg;
 import com.example.dodam.service.DiaryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -64,6 +66,17 @@ public class DiaryController {
         diaryService.deleteDiary(id);
         return "성공";
     }
+    @PostMapping("/diary/img/")
+    public String addDiary( @RequestBody MultipartFile img) throws Exception {
+//        Integer id = diaryimg.getId();
+//        MultipartFile img = diaryimg.getImg();
+        System.out.printf("pass");
+        diaryService.saveDiaryImag(img);
+        System.out.printf("pass");
+
+        return "성공";
+    }
+
 
 //    @GetMapping("/diary")
 //    public Diary getDiary(){
