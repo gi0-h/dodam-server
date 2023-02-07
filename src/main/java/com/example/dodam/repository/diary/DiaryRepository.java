@@ -1,4 +1,4 @@
-package com.example.dodam.repository;
+package com.example.dodam.repository.diary;
 
 import com.example.dodam.domain.diary.Diary;
 import com.example.dodam.domain.diary.DiaryDetail;

@@ -1,8 +1,8 @@
 package com.example.dodam;
 
-import com.example.dodam.repository.DiaryRepository;
-import com.example.dodam.repository.JdbcDiaryRepository;
-import com.example.dodam.service.DiaryService;
+import com.example.dodam.repository.diary.DiaryRepository;
+import com.example.dodam.repository.diary.JdbcDiaryRepository;
+import com.example.dodam.service.diary.DiaryService;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;

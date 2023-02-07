@@ -1,9 +1,9 @@
-package com.example.dodam.service;
+package com.example.dodam.service.diary;
 
 import com.example.dodam.domain.diary.Diary;
 import com.example.dodam.domain.diary.DiaryDetail;
 import com.example.dodam.domain.diary.DiaryList;
-import com.example.dodam.repository.DiaryRepository;
+import com.example.dodam.repository.diary.DiaryRepository;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
