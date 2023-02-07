@@ -1,10 +1,8 @@
 package com.example.dodam.controller;
 
-import com.example.dodam.domain.model.Diary;
-import com.example.dodam.domain.model.DiaryDetail;
-import com.example.dodam.domain.model.DiaryList;
-import com.example.dodam.domain.model.Diaryimg;
+import com.example.dodam.domain.model.*;
 import com.example.dodam.service.DiaryService;
+import org.apache.catalina.connector.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,9 +32,25 @@ public class DiaryController {
 
     // 다이어리 디테일 조회
     @GetMapping("/diary/detail/{id}")
-    public Optional<DiaryDetail> getDiaryDetail(@PathVariable Integer id){
-        Optional<DiaryDetail> diaryList = diaryService.findDiary(id);
-        return diaryList;
+    public Optional<DiaryDetailImg> getDiaryDetail(@PathVariable Integer id){
+        Optional<DiaryDetail> diary = diaryService.findDiary(id);
+        DiaryDetailImg diaryDetailImg = new DiaryDetailImg();
+        diaryDetailImg.setId(diary.get().getId());
+        diaryDetailImg.setTitle(diary.get().getTitle());
+        diaryDetailImg.setContent(diary.get().getContent());
+        diaryDetailImg.setOneWord(diary.get().getOneWord());
+        try {
+            byte[] imgData =  diaryService.getImage("image/diary/0.png");
+
+            diaryDetailImg.setImg(imgData);
+
+
+
+        }
+        catch (Exception e) {
+            System.out.print("이미지 조회 실패");
+        }
+        return Optional.of(diaryDetailImg);
     }
 
     //다이어리 등록

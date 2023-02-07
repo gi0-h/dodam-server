@@ -8,7 +8,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.File;
+import java.io.*;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -63,7 +63,7 @@ public class DiaryService {
 
         });
     }
-
+    //다이어리 이미지 저장
     public String saveDiaryImag( MultipartFile imgFile) throws Exception{
         String imagePath = null ;
         String absolutePath = new File("").getAbsolutePath()+"\\" ;
@@ -97,7 +97,38 @@ public class DiaryService {
 
         return imagePath;
     }
+    // 다이어리 이미지 조회
+    public byte[] getImage(String imagePath) throws Exception {
+        System.out.println(imagePath);
+        FileInputStream inputStream = null;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
+        String absolutePath = new File("").getAbsolutePath() + "/";
+        try {
+            inputStream = new FileInputStream(absolutePath + imagePath);
+        }
+        catch (FileNotFoundException e) {
+            throw new Exception("해당 파일을 찾을 수 없습니다.");
+        }
 
+        int readCount = 0;
+        byte[] buffer = new byte[1024];
+        byte[] fileArray = null;
+
+        try {
+            while((readCount = inputStream.read(buffer)) != -1){
+                outputStream.write(buffer, 0, readCount);
+            }
+            fileArray = outputStream.toByteArray();
+            inputStream.close();
+            outputStream.close();
+
+        }
+        catch (IOException e) {
+            throw new Exception("파일을 변환하는데 문제가 발생했습니다.");
+        }
+
+        return fileArray;
+    }
 
 }
