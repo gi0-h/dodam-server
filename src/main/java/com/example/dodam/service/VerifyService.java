@@ -11,6 +11,7 @@ import com.example.dodam.domain.sms.Verification;
 import com.example.dodam.domain.sms.dto.VerificationResponse;
 import com.example.dodam.repository.sms.VerifyRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
  * - 회원 가입전 인증된 번호인지 확인 (30분 기간)
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class VerifyService {
     private static final Long VERIFY_EXPIRATION = 300L;
@@ -43,6 +45,7 @@ public class VerifyService {
         }
         verification.setStatus(VERIFIED);
         verification.setExpiration(VERIFIED_EXPIRATION);
+        log.debug("verification = {}", verification);
         repository.save(verification);
         return new VerificationResponse("인증이 성공했습니다.", "");
     }
