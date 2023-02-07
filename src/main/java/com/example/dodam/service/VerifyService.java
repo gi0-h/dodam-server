@@ -24,8 +24,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class VerifyService {
-    private static final Long VERIFY_EXPIRATION = 300L;
-    private static final Long VERIFIED_EXPIRATION = 1800L;
 
     private final VerifyRepository repository;
 
@@ -44,7 +42,6 @@ public class VerifyService {
             throw new RegisterException(FAIL_VERIFY);
         }
         verification.setStatus(VERIFIED);
-        verification.setExpiration(VERIFIED_EXPIRATION);
         log.debug("verification = {}", verification);
         repository.save(verification);
         return new VerificationResponse("인증이 성공했습니다.", "");
@@ -71,7 +68,6 @@ public class VerifyService {
     public void saveCode(String phoneNumber, String code) {
         Verification verification = new Verification();
         verification.setId(phoneNumber);
-        verification.setExpiration(VERIFY_EXPIRATION);
         verification.setStatus(UNVERIFIED);
         verification.setCode(code);
         repository.save(verification);
