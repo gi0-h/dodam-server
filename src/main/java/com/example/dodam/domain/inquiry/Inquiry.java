@@ -1,4 +1,4 @@
-package com.example.dodam.domain;
+package com.example.dodam.domain.inquiry;
 
 import java.time.LocalDateTime;
 

@@ -1,7 +1,8 @@
-package com.example.dodam.repository;
+package com.example.dodam.repository.inquiry;
 
-import com.example.dodam.domain.Inquiry;
+import com.example.dodam.domain.inquiry.Inquiry;
 //import org.springframework.beans.factory.annotation.Autowired;
+import com.example.dodam.repository.inquiry.InquiryRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcInquiryRepository implements InquiryRepository{
+public class JdbcInquiryRepository implements InquiryRepository {
 
     private static final String TABLE = "inquiry";
     private final JdbcTemplate jdbcTemplate;
