@@ -19,7 +19,6 @@ public class PrincipalDetailsService implements UserDetailsService{
 		System.out.println("PrincipalDetailsService : 진입");
 		User user = userRepository.findByUsername(username).get();
 
-		// session.setAttribute("loginUser", user);
-		return new PrincipalDetails(user);
+		return new PrincipalDetails(user);	// 여기서 return 되면 session 에 들어감 -> 권한 관리를 위해서만 사용됨
 	}
 }
