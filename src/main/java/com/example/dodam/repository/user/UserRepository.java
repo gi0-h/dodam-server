@@ -1,8 +1,12 @@
+
 package com.example.dodam.repository.user;
 
 import com.example.dodam.domain.user.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long>{
-	User findByUsername(String username);
+public interface UserRepository {
+	/**
+	 * email -> loginId로 변경
+	 */
+	Optional<User> findByUsername(String email);
 }
