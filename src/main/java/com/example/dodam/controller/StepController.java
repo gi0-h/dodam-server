@@ -1,7 +1,7 @@
 package com.example.dodam.controller;
 
 import com.example.dodam.dto.*;
-import com.example.dodam.entity.Step;
+import com.example.dodam.domain.Step;
 import com.example.dodam.service.StepService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

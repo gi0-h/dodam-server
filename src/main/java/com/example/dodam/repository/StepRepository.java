@@ -1,6 +1,6 @@
 package com.example.dodam.repository;
 
-import com.example.dodam.entity.Step;
+import com.example.dodam.domain.Step;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

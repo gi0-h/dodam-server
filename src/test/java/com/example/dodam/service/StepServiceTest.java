@@ -4,7 +4,7 @@ import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
 import com.example.dodam.dto.StepSelectDto;
-import com.example.dodam.entity.Step;
+import com.example.dodam.domain.Step;
 import com.example.dodam.repository.StepRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -4,15 +4,13 @@ import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
 import com.example.dodam.dto.StepSelectDto;
-import com.example.dodam.entity.Step;
+import com.example.dodam.domain.Step;
 import com.example.dodam.repository.StepRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;

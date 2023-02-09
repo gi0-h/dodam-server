@@ -1,6 +1,6 @@
 package com.example.dodam.dto;
 
-import com.example.dodam.entity.Step;
+import com.example.dodam.domain.Step;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

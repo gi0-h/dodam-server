@@ -1,4 +1,4 @@
-package com.example.dodam.entity;
+package com.example.dodam.domain;
 
 import lombok.*;
 
