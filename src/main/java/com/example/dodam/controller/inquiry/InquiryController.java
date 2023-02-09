@@ -1,6 +1,7 @@
 package com.example.dodam.controller.inquiry;
 
 import com.example.dodam.domain.inquiry.Inquiry;
+import com.example.dodam.domain.user.User;
 import com.example.dodam.service.inquiry.InquiryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +51,8 @@ public class InquiryController {
 // localhost:8080/inquiry/new (Only POST)
 // POST 게시글 작성
     @PostMapping(value = "/inquiry/new", consumes="multipart/form-data") //file
-    public ResponseEntity<?> save(@ModelAttribute Inquiry inquiry, @Nullable MultipartFile file) throws Exception{
-        return new ResponseEntity<>(inquiryService.save(inquiry, file), HttpStatus.CREATED);
+    public ResponseEntity<?> save(@ModelAttribute Inquiry inquiry, @Nullable MultipartFile file, User user) throws Exception{
+        return new ResponseEntity<>(inquiryService.save(inquiry, file, user), HttpStatus.CREATED);
     }
 
     // PUT 게시글 수정

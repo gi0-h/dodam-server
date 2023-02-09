@@ -2,6 +2,7 @@ package com.example.dodam.repository.inquiry;
 
 import com.example.dodam.domain.inquiry.Inquiry;
 //import org.springframework.beans.factory.annotation.Autowired;
+import com.example.dodam.domain.user.User;
 import com.example.dodam.repository.inquiry.InquiryRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,7 +49,7 @@ public class JdbcInquiryRepository implements InquiryRepository {
 //    }
 
     @Override
-    public Inquiry save(Inquiry inquiry, MultipartFile file) throws IOException {
+    public Inquiry save(Inquiry inquiry, MultipartFile file, User user) throws IOException {
         if(file != null) {
             String imgPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
             UUID uuid = UUID.randomUUID();
@@ -58,6 +59,7 @@ public class JdbcInquiryRepository implements InquiryRepository {
             inquiry.setFileName(fileName);
             inquiry.setImgPath("/files/" + fileName);
         }
+        inquiry.setUserId(user.getId());
         inquiry.setCreateAt(LocalDateTime.now());
         inquiry.setUpdateAt(LocalDateTime.now());
         SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);

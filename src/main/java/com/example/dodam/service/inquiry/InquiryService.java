@@ -1,5 +1,6 @@
 package com.example.dodam.service.inquiry;
 
+import com.example.dodam.domain.user.User;
 import com.example.dodam.dto.InquiriesDto;
 import com.example.dodam.dto.InquiryDto;
 import com.example.dodam.domain.inquiry.Inquiry;
@@ -41,8 +42,8 @@ public class InquiryService {
 //    }
 
     @Transactional
-    public Inquiry save(Inquiry inquiry, MultipartFile file) throws Exception{
-        return inquiryRepository.save(inquiry, file);
+    public Inquiry save(Inquiry inquiry, MultipartFile file, User user) throws Exception{
+        return inquiryRepository.save(inquiry, file, user);
     }
 
     @Transactional
