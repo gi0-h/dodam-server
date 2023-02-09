@@ -1,17 +1,14 @@
 package com.example.dodam.dto;
 
-import com.example.dodam.entity.Step;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Builder
-@ToString
 @Getter
-public class StepEnrollDto {
-    private List<Step> allStep;
+public class StepAddDto {
+    private String stepName;
     private LocalDate startDate;
+    private LocalDate endDate;
 }

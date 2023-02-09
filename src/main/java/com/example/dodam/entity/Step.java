@@ -1,26 +1,28 @@
 package com.example.dodam.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "step")
 public class Step {
     @Id
-    @Column(name = "step_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int stepId;
 
     @Column(nullable = false)
-    private Long userId;
+    private int userId;
 
-    @Column(name = "step_name")
-    private String name;
+    @Column
+    private String stepName;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -29,15 +31,15 @@ public class Step {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private int order;
+    private int stepOrder;
 
 
     public void changeOrder(int newOrder){
-        this.order = newOrder;
+        this.stepOrder = newOrder;
     }
 
     public void changeStep(String name, LocalDate startDate, LocalDate endDate){
-        this.name = name;
+        this.stepName = name;
         this.startDate = startDate;
         this.endDate = endDate;
     }
