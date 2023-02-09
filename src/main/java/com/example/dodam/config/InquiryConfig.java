@@ -23,5 +23,4 @@ public class InquiryConfig {
     public InquiryRepository inquiryRepository(){
         return new JdbcInquiryRepository(dataSource);
     }
-
 }

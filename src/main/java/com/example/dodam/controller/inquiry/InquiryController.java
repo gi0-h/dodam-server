@@ -4,7 +4,11 @@ import com.example.dodam.domain.inquiry.Inquiry;
 import com.example.dodam.service.inquiry.InquiryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 public class InquiryController {
@@ -15,7 +19,7 @@ public class InquiryController {
         this.inquiryService = inquiryService;
     }
 
-    // GET 전체 게시물 조회 -> 대략적인 게시물 정보 확인
+    // GET 전체 게시물 조회 -> 전체 게시물 정보 확인
     // GET 상세 게시물 조회 -> 게시글 상세 조회
     // POST 게시글 작성
     // PUT 게시글 수정
@@ -37,21 +41,25 @@ public class InquiryController {
         return new ResponseEntity<>(inquiryService.getInquiry(id), HttpStatus.OK);
     }
 
+//    @PostMapping("/inquiry/new")
+//    public ResponseEntity<?> save(@RequestBody Inquiry inquiry) {
+//        return new ResponseEntity<>(inquiryService.save(inquiry), HttpStatus.CREATED);
+//    }
 
-    // localhost:8080/inquiry/new (Only POST)
-    // POST 게시글 작성
-    @PostMapping("/inquiry/new")
-    public ResponseEntity<?> save(@RequestBody Inquiry inquiry) {
-        return new ResponseEntity<>(inquiryService.save(inquiry), HttpStatus.CREATED);
+
+// localhost:8080/inquiry/new (Only POST)
+// POST 게시글 작성
+    @PostMapping(value = "/inquiry/new", consumes="multipart/form-data") //file
+    public ResponseEntity<?> save(@ModelAttribute Inquiry inquiry, @Nullable MultipartFile file) throws Exception{
+        return new ResponseEntity<>(inquiryService.save(inquiry, file), HttpStatus.CREATED);
     }
-
 
     // PUT 게시글 수정
     // ex) localhost:8080/inquiry/3
     // 게시글 수정하고 -> 완료 버튼을 누른다 -> 백엔드 서버 요청 (id, updateInquiry)
     @PutMapping("/inquiry/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Inquiry updateInquiry) {
-        return new ResponseEntity<>(inquiryService.update(id, updateInquiry), HttpStatus.OK);
+    public ResponseEntity<?> update(@PathVariable("id") Long id, Inquiry updateInquiry, @Nullable MultipartFile file) throws IOException {
+        return new ResponseEntity<>(inquiryService.update(id, updateInquiry, file), HttpStatus.OK);
     }
 
 

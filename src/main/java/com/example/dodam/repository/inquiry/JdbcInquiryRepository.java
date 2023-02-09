@@ -10,11 +10,15 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class JdbcInquiryRepository implements InquiryRepository {
 
@@ -29,12 +33,31 @@ public class JdbcInquiryRepository implements InquiryRepository {
                 .withTableName(TABLE)
                 .usingGeneratedKeyColumns("id")
                 .usingColumns("userId", "title", "content", "answer", "status", "category",
-                        "createAt", "updateAt", "imgPath");
+                        "createAt", "updateAt", "imgPath", "filename");
     }
 
-    @Override
-    public Inquiry save(Inquiry inquiry) {
+//    @Override
+//    public Inquiry save(Inquiry inquiry) {
+//
+//        inquiry.setCreateAt(LocalDateTime.now());
+//        inquiry.setUpdateAt(LocalDateTime.now());
+//        SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);
+//        Number key = jdbcInsert.executeAndReturnKey(param);
+//        inquiry.setId(key.longValue());
+//        return inquiry;
+//    }
 
+    @Override
+    public Inquiry save(Inquiry inquiry, MultipartFile file) throws IOException {
+        if(file != null) {
+            String imgPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid+"_"+file.getOriginalFilename();
+            File saveFile = new File(imgPath, fileName);
+            file.transferTo(saveFile);
+            inquiry.setFileName(fileName);
+            inquiry.setImgPath("/files/" + fileName);
+        }
         inquiry.setCreateAt(LocalDateTime.now());
         inquiry.setUpdateAt(LocalDateTime.now());
         SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);
@@ -62,10 +85,22 @@ public class JdbcInquiryRepository implements InquiryRepository {
 
     @Override
     @Transactional
-    public Inquiry update(Long id, Inquiry inquiry) {
+    public Inquiry update(Long id, Inquiry inquiry, MultipartFile file) throws IOException {
 
         inquiry.setUpdateAt(LocalDateTime.now());
-        jdbcTemplate.update("update inquiry set title = ?, content = ?, imgPath = ?,category = ? , answer = ? where id = ?",inquiry.getTitle(),inquiry.getContent(),inquiry.getImgPath(),inquiry.getCategory(),inquiry.getAnswer(),id);
+        if(file != null) {
+            String imgPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid+"_"+file.getOriginalFilename();
+            File saveFile = new File(imgPath, fileName);
+            file.transferTo(saveFile);
+            inquiry.setFileName(fileName);
+            inquiry.setImgPath("/files/" + fileName);
+        }
+        if(inquiry.getAnswer() != null){
+            inquiry.setStatus(true);
+        }
+        jdbcTemplate.update("update inquiry set title = ?, content = ?, status = ?, imgPath = ?, fileName = ?, category = ?, answer = ? where id = ?",inquiry.getTitle(),inquiry.getContent(), inquiry.isStatus(), inquiry.getImgPath(),inquiry.getFileName(), inquiry.getCategory(),inquiry.getAnswer(),id);
         return inquiry;
     }
 

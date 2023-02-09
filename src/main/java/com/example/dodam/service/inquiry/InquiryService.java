@@ -5,7 +5,9 @@ import com.example.dodam.dto.InquiryDto;
 import com.example.dodam.domain.inquiry.Inquiry;
 import com.example.dodam.repository.inquiry.InquiryRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +35,19 @@ public class InquiryService {
         return inquiryDto;
     }
 
+//    @Transactional
+//    public Inquiry save(Inquiry inquiry){
+//        return inquiryRepository.save(inquiry);
+//    }
+
     @Transactional
-    public Inquiry save(Inquiry inquiry) {
-        return inquiryRepository.save(inquiry);
+    public Inquiry save(Inquiry inquiry, MultipartFile file) throws Exception{
+        return inquiryRepository.save(inquiry, file);
     }
 
     @Transactional
-    public Inquiry update(Long id, Inquiry updateInquiry) {
-        return inquiryRepository.update(id, updateInquiry);
+    public Inquiry update(Long id, Inquiry updateInquiry, MultipartFile file) throws IOException {
+        return inquiryRepository.update(id, updateInquiry, file);
     }
 
 
