@@ -30,13 +30,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 				.formLogin().disable()
 				.httpBasic().disable()
-				
+				// 필터 추가
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+				// 권한 관리
 				.authorizeRequests()
-				.antMatchers("//**")
+				.antMatchers("/diary/**")
 				.access("hasRole('ROLE_USER')")
-				.anyRequest().permitAll();
+				.antMatchers("/orders/**")
+				.access("hasRole('ROLE_USER')")
+				.antMatchers("/order-details/**")
+				.access("hasRole('ROLE_USER')")
+				.antMatchers("/inquiry/**")
+				.access("hasRole('ROLE_USER')")
+				.antMatchers("/inquiries/**")
+				.access("hasRole('ROLE_USER')")
+				.antMatchers("/user")
+				.access("hasRole('ROLE_USER')")
+				.anyRequest().permitAll();	//다른 요청은 권한 허용
 	}
 }
 
