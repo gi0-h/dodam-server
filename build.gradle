@@ -24,11 +24,21 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'mysql:mysql-connector-java:8.0.32'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.apache.httpcomponents:httpclient'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+<<<<<<< HEAD
 	testImplementation 'org.springframework.security:spring-security-test'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+=======
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	runtimeOnly 'com.mysql:mysql-connector-java'
+>>>>>>> 7d12bd5655e0c6571487e3253128506beba22e58
 }
 
 tasks.named('test') {
