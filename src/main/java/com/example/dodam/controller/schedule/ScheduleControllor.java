@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ScheduleControllor {
@@ -33,4 +31,13 @@ public class ScheduleControllor {
         scheduleService.update(updateSchedule); //scheduleId 반환
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
+
+    // 일정 삭제
+    // scheduleId 전달, 완료 메세지 반환
+    @DeleteMapping("/schedule/{id}")
+    public ResponseEntity<?> deleteSchedule(@PathVariable("id") Integer scheduleId){
+        scheduleService.delete(scheduleId);
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
 }

@@ -24,4 +24,11 @@ public class ScheduleService {
     public Integer update(Schedule schedule){
         return scheduleRepository.update(schedule);
     }
+
+    // 일정 삭제
+    public void delete(Integer id){
+        scheduleRepository.deleteById(id);
+    }
+
+
 }

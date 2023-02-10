@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.util.Optional;
 
 @Repository
 public class JdbcScheduleRepository implements ScheduleRepository{
 
     String updateQuery = "update schedule set name = ?, repeatStatus = ?, selectDate = ?, selectDay = ?, startDate = ?, endDate = ?, startTime = ?, endTime = ?, color = ? where scheduleId = ?";
+    String deleteQuery = "delete from schedule where scheduleId = ?";
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     @Autowired
@@ -46,4 +48,13 @@ public class JdbcScheduleRepository implements ScheduleRepository{
                 schedule.getStartDate(), schedule.getEndDate(), schedule.getStartTime(), schedule.getEndTime(), schedule.getColor(), id );
         return id;
     }
+
+    // 일정 삭제
+    @Override
+    public Optional<Schedule> deleteById(Integer scheduleId) {
+        jdbcTemplate.update(deleteQuery, scheduleId);
+        return Optional.empty();
+    }
+
+
 }
