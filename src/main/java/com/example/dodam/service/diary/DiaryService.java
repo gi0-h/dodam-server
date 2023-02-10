@@ -37,40 +37,43 @@ public class DiaryService {
     public Boolean addDiary(AddDiary diary){
         //중복 다이어리 확인
         validateDuplicateDiary(diary);
+        Diary diaryImgpath = new Diary();
+        diaryImgpath.setId(0);
+        diaryImgpath.setDate(diary.getDate());
+        diaryImgpath.setFeel(diary.getFeel());
+        diaryImgpath.setTitle(diary.getTitle());
+        diaryImgpath.setOneWord(diary.getOneWord());
+        diaryImgpath.setUserId(diary.getUserId());
+        diaryImgpath.setContent(diary.getContent());
         //다이어리 사진 base64 -> img로 저장
-       byte[] decodeImg  = base64Decode(diary.getBase64Img());
-        String target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".jpg";
+        if(diary.getBase64Img() != null){
+            byte[] decodeImg  = base64Decode(diary.getBase64Img());
+            String target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".jpg";
+            try {
+                BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(decodeImg));
+                File file = new File(target);
+                //이미지 저장
+                ImageIO.write(bufImg, "jpg", file);
+                // png일때
+                if (!file.exists()) {
+                    target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/" + diary.getUserId().toString() + "_" + diary.getDate().toString() + ".png";
+                    file = new File(target);
+                    ImageIO.write(bufImg, "png", file);
+                }
+                diaryImgpath.setImgPath(target);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
 
-        try {
-
-            BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(decodeImg));
-            File file = new File(target);
-            ImageIO.write(bufImg, "jpg", file);
-
-            //jpg일때
-            if (!file.exists()) {
-                target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".png";
-                file = new File(target);
-                ImageIO.write(bufImg, "png", file);
+                return true;
             }
 
-            //Diary 객체 생성 , imgPath 추가
-            Diary diaryImgpath = new Diary();
-            diaryImgpath.setId(0);
-            diaryImgpath.setDate(diary.getDate());
-            diaryImgpath.setFeel(diary.getFeel());
-            diaryImgpath.setTitle(diary.getTitle());
-            diaryImgpath.setOneWord(diary.getOneWord());
-            diaryImgpath.setImgPath(target);
-            diaryImgpath.setUserId(diary.getUserId());
-            diaryImgpath.setContent(diary.getContent());
-            diaryRepository.save(diaryImgpath);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
 
-            return true;
+        }else{
+            diaryImgpath.setImgPath(null);
+            diaryRepository.save(diaryImgpath);
         }
+
 
         return true;
     }
@@ -78,42 +81,57 @@ public class DiaryService {
     // 다이어리 수정
     public Integer updateDiary(DiaryImage diary){
         // 받은 base64 이미지 -> 이미지로 변환
-        byte[] decodeImg  = base64Decode(diary.getBase64Img());
-        System.out.println(decodeImg.toString());
-        //저장할 주소
-        String target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".png";
+
+
+        Diary diaryImgpath = new Diary();
+        diaryImgpath.setId(diary.getId());
+        diaryImgpath.setDate(diary.getDate());
+        diaryImgpath.setFeel(diary.getFeel());
+        diaryImgpath.setTitle(diary.getTitle());
+        diaryImgpath.setOneWord(diary.getOneWord());
+        diaryImgpath.setUserId(diary.getUserId());
+        diaryImgpath.setContent(diary.getContent());
+        //수정 전에 저장된 주소
+        String target = diaryRepository.findDiary(diary.getId()).getImgPath();
+
         try {
-            //기존에 있던 이미지 삭제
-            File deleteFolder = new File(target);
-            deleteFolder.delete();
-            //수정된 이미지 base64 -> 이미지로 변환
-            BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(decodeImg));
-            File file = new File(target);
-            //이미지 저장
-            ImageIO.write(bufImg, "png", file);
-            //jpg일때
-            if (!file.exists()) {
-                target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".jpg";
-                file = new File(target);
+            //이미지를 추가했다면
+            if (diary.getBase64Img() != null){
+                if(target != null){
+                    File deleteFolder = new File(target);
+                    deleteFolder.delete();
+                }
+                byte[] decodeImg  = base64Decode(diary.getBase64Img());
+                //수정된 이미지 base64 -> 이미지로 변환
+                target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/" + diary.getUserId().toString() + "_" + diary.getDate().toString() + ".jpg";
+                BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(decodeImg));
+                File file = new File(target);
+                //이미지 저장
                 ImageIO.write(bufImg, "jpg", file);
+                // png일때
+                if (!file.exists()) {
+                    target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".png";
+                    file = new File(target);
+                    ImageIO.write(bufImg, "png", file);
+                }
+                diaryImgpath.setImgPath(target);
+            }else{
+                //이미지가 없다면
+                if(target != null){
+                    File deleteFolder = new File(target);
+                    deleteFolder.delete();
+                }
+                diaryImgpath.setImgPath(null);
             }
-            //Diary 객체 생성 , imgPath 추가
-            Diary diaryImgpath = new Diary();
-            diaryImgpath.setId(diary.getId());
-            diaryImgpath.setDate(diary.getDate());
-            diaryImgpath.setFeel(diary.getFeel());
-            diaryImgpath.setTitle(diary.getTitle());
-            diaryImgpath.setOneWord(diary.getOneWord());
-            diaryImgpath.setImgPath(target);
-            diaryImgpath.setUserId(diary.getUserId());
-            diaryImgpath.setContent(diary.getContent());
             diaryRepository.updateDiary(diaryImgpath);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
 
-            return 1;
-        }
+                return 1;
+            }
+
+
 
         return diary.getId();
 

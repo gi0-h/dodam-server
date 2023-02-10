@@ -60,7 +60,6 @@ public class DiaryController {
     @PutMapping("/diary")
     public String putDiary(@RequestBody DiaryImage diary){
         diaryService.updateDiary(diary);
-        System.out.println(diary.title);
         return "성공";
     }
     //삭제
