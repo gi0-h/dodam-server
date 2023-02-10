@@ -32,4 +32,13 @@ public class MedicalRecordService {
         medicalRecordRepository.deleteById(id);
     }
 
+    // 진료기록 목록 조회
+    public List<MedicalRecordList> getRecords(Integer userId){
+        return medicalRecordRepository.findAll(userId);
+    }
+
+    // 진료기록 조회
+    public  MedicalRecord getRecord(Integer id){
+        return medicalRecordRepository.findById(id).get();
+    }
 }

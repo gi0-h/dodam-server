@@ -17,14 +17,14 @@ public class MedicalRecordControllor {
     }
 
     // 진료기록 등록
-    // MedicalRecord DTO 전달, id 반환
+    // MedicalRecord 객체 전달, id 반환
     @PostMapping("/medical-record")
     public ResponseEntity<?> addMedicalRecord(@RequestBody MedicalRecord record){
         return new ResponseEntity<>(medicalRecordService.save(record), HttpStatus.CREATED);
     }
 
     // 진료기록 수정
-    // MedicalRecord DTO 전달, 완료 메세지 반환
+    // MedicalRecord 객체 전달, 완료 메세지 반환
     @PutMapping("/medical-record")
     public ResponseEntity<?> updateMedicalRecord(@RequestBody MedicalRecord record){
         medicalRecordService.update(record); // id 반환
@@ -38,5 +38,18 @@ public class MedicalRecordControllor {
         medicalRecordService.delete(id);
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
-    
+
+    // 진료기록 목록 조회
+    // userId 전달, Lsit<MedicalRecordList> 반환
+    @GetMapping("/medical-records/{uid}")
+    public ResponseEntity<?> getMedicalRecords(@PathVariable("uid") Integer userId){
+        return new ResponseEntity<>(medicalRecordService.getRecords(userId), HttpStatus.OK);
+    }
+
+    // 진료기록 조회
+    // id 전달, MedicalRecord 객체 반환
+    @GetMapping("/medical-record/{id}")
+    public ResponseEntity<?> getMedicalRecord(@PathVariable("id") Integer id){
+        return new ResponseEntity<>(medicalRecordService.getRecord(id), HttpStatus.OK);
+    }
 }
