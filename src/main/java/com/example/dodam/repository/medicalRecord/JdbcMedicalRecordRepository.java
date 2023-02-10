@@ -19,6 +19,7 @@ import java.util.Optional;
 public class JdbcMedicalRecordRepository implements MedicalRecordRepository {
 
     String updateQuery = "update medicalrecord set date = ?, detail = ? where id = ?";
+    String deleteQuery = "delete from medicalrecord where id = ?";
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -48,6 +49,13 @@ public class JdbcMedicalRecordRepository implements MedicalRecordRepository {
         Integer id = medicalRecord.getId();
         jdbcTemplate.update(updateQuery, medicalRecord.getDate(), medicalRecord.getDetail(), id);
         return id;
+    }
+
+    // 진료기록 삭제
+    @Override
+    public Optional<MedicalRecord> deleteById(Integer id) {
+        jdbcTemplate.update(deleteQuery, id);
+        return Optional.empty();
     }
 
 

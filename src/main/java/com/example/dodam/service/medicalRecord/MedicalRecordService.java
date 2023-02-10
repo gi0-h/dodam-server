@@ -27,4 +27,9 @@ public class MedicalRecordService {
         return medicalRecordRepository.update(record);
     }
 
+    // 진료기록 삭제
+    public void delete(Integer id){
+        medicalRecordRepository.deleteById(id);
+    }
+
 }

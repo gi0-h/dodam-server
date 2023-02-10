@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface MedicalRecordRepository {
     Integer save(MedicalRecord record);     // 진료기록 등록
     Integer update(MedicalRecord record);    // 진료기록 수정
+    Optional<MedicalRecord> deleteById(Integer id);    // 진료기록 삭제
 }

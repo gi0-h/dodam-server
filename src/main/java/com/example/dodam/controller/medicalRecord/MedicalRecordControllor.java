@@ -31,4 +31,12 @@ public class MedicalRecordControllor {
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
 
+    // 진료기록 삭제
+    // id 전달, 완료 메세지 반환
+    @DeleteMapping("/medical-record/{id}")
+    public ResponseEntity<?> deleteMedicalRecord(@PathVariable("id") Integer id){
+        medicalRecordService.delete(id);
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+    
 }
