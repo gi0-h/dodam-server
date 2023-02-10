@@ -1,9 +1,6 @@
 package com.example.dodam.controller.diary;
 
-import com.example.dodam.domain.diary.Diary;
-import com.example.dodam.domain.diary.DiaryDetail;
-import com.example.dodam.domain.diary.DiaryDetailImg;
-import com.example.dodam.domain.diary.DiaryList;
+import com.example.dodam.domain.diary.*;
 import com.example.dodam.service.diary.DiaryService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,11 +37,9 @@ public class DiaryController {
         diaryDetailImg.setContent(diary.get().getContent());
         diaryDetailImg.setOneWord(diary.get().getOneWord());
         try {
-            byte[] imgData =  diaryService.getImage("image/diary/0.png");
+            String img =  diaryService.getImage(diary.get().getImgPath());
 
-            diaryDetailImg.setImg(imgData);
-
-
+            diaryDetailImg.setImg(img);
 
         }
         catch (Exception e) {
@@ -54,63 +49,38 @@ public class DiaryController {
     }
 
     //다이어리 등록
-//    @PostMapping("members/new")
-//    public String create(MemberForm form){
-//        Member member = new Member();
-//        member.setName(form.getName());
-//        memberService.join(member);
-//        return "redirect:/";
-//    }
     @PostMapping("/diary")
-    public String addDiary(@RequestBody Diary diary){
-        diaryService.addDiary((diary));
+    public String addDiary(@RequestBody AddDiary diary){
+        diaryService.addDiary(diary);
+
 
         return "성공";
     }
-
+    //수정
     @PutMapping("/diary")
-    public String putDiary(@RequestBody Diary diary){
+    public String putDiary(@RequestBody DiaryImage diary){
         diaryService.updateDiary(diary);
+        System.out.println(diary.title);
         return "성공";
     }
-
+    //삭제
     @DeleteMapping("/diary/{id}")
     public String deleteDiary(@PathVariable Integer id){
         //해당 id 다이어리 존재 여부 확인
         diaryService.deleteDiary(id);
         return "성공";
     }
-    @PostMapping("/diary/img/")
-    public String addDiary( @RequestBody MultipartFile img) throws Exception {
-//        Integer id = diaryimg.getId();
-//        MultipartFile img = diaryimg.getImg();
-        System.out.printf("pass");
-        diaryService.saveDiaryImag(img);
-        System.out.printf("pass");
-
-        return "성공";
-    }
-
-
-//    @GetMapping("/diary")
-//    public Diary getDiary(){
-//        Diary diary = new Diary();
-//        diary.id = 1;
-//        diary.userId = 1;
-//        diary.imgPath = "../";
-//        diary.date = new Date();
-//        diary.feel = "좋음";
-//        diary.oneWord = "힘들다..";
-//        return diary;
-//    }
-
-
-//    @GetMapping("/info")
-//    public String home(){
-//        return "hello";
-//    }
-
+    // 다이어리 이미지만 추가 (Test용)
+//    //
+//    @PostMapping("/diary/img/")
+//    public String addDiary( @RequestBody MultipartFile img) throws Exception {
+////        Integer id = diaryimg.getId();
+////        MultipartFile img = diaryimg.getImg();
+//        System.out.printf("pass");
+//        diaryService.saveDiaryImag(img);
+//        System.out.printf("pass");
 //
-//    @PostMapping("/diary/add")
-//    public String
+//        return "성공";
+//    }
+
 }

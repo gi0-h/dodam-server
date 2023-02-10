@@ -34,6 +34,7 @@ public class JdbcDiaryRepository implements DiaryRepository {
         parameters.put("imgPath",diary.getImgPath());
         parameters.put("oneWord",diary.getOneWord());
         parameters.put("feel",diary.getFeel());
+        parameters.put("content",diary.getContent());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         diary.setId(key.intValue());
         return diary;
@@ -57,8 +58,8 @@ public class JdbcDiaryRepository implements DiaryRepository {
 
     // 원하는 다이어리 찾기
     @Override
-    public Optional<Diary>  findByDate(String date){
-        List<Diary> result = jdbcTemplate.query("select * from diary where date = ?",diaryRowmapper(),date);
+    public Optional<Diary>  findByDate(Integer id , String date){
+        List<Diary> result = jdbcTemplate.query("select * from diary where date = ? and userId = ? ",diaryRowmapper(),date,id);
         return result.stream().findAny();
     }
 
