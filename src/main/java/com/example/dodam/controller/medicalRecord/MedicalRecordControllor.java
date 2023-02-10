@@ -23,4 +23,12 @@ public class MedicalRecordControllor {
         return new ResponseEntity<>(medicalRecordService.save(record), HttpStatus.CREATED);
     }
 
+    // 진료기록 수정
+    // MedicalRecord DTO 전달, 완료 메세지 반환
+    @PutMapping("/medical-record")
+    public ResponseEntity<?> updateMedicalRecord(@RequestBody MedicalRecord record){
+        medicalRecordService.update(record); // id 반환
+        return new ResponseEntity<>("수정 완료", HttpStatus.OK);
+    }
+
 }

@@ -22,4 +22,9 @@ public class MedicalRecordService {
         return medicalRecordRepository.save(record);
     }
 
+    // 진료기록 수정
+    public Integer update(MedicalRecord record){
+        return medicalRecordRepository.update(record);
+    }
+
 }

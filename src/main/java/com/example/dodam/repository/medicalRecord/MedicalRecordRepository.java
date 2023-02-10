@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface MedicalRecordRepository {
     Integer save(MedicalRecord record);     // 진료기록 등록
+    Integer update(MedicalRecord record);    // 진료기록 수정
 }

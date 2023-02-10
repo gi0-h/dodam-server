@@ -18,6 +18,8 @@ import java.util.Optional;
 @Repository
 public class JdbcMedicalRecordRepository implements MedicalRecordRepository {
 
+    String updateQuery = "update medicalrecord set date = ?, detail = ? where id = ?";
+
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
@@ -38,4 +40,15 @@ public class JdbcMedicalRecordRepository implements MedicalRecordRepository {
         medicalRecord.setId(key.intValue());
         return medicalRecord.getId();
     }
+
+    // 진료기록 수정
+    @Override
+    @Transactional
+    public Integer update(MedicalRecord medicalRecord) {
+        Integer id = medicalRecord.getId();
+        jdbcTemplate.update(updateQuery, medicalRecord.getDate(), medicalRecord.getDetail(), id);
+        return id;
+    }
+
+
 }
