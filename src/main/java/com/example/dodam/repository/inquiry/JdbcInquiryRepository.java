@@ -1,5 +1,6 @@
 package com.example.dodam.repository.inquiry;
 
+import com.example.dodam.config.auth.PrincipalDetails;
 import com.example.dodam.domain.inquiry.Inquiry;
 //import org.springframework.beans.factory.annotation.Autowired;
 import com.example.dodam.domain.user.User;
@@ -10,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +52,7 @@ public class JdbcInquiryRepository implements InquiryRepository {
 //    }
 
     @Override
-    public Inquiry save(Inquiry inquiry, MultipartFile file, User user) throws IOException {
+    public Inquiry save(Inquiry inquiry, MultipartFile file) throws IOException {
         if(file != null) {
             String imgPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
             UUID uuid = UUID.randomUUID();
@@ -59,7 +62,9 @@ public class JdbcInquiryRepository implements InquiryRepository {
             inquiry.setFileName(fileName);
             inquiry.setImgPath("/files/" + fileName);
         }
-        inquiry.setUserId(user.getId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        inquiry.setUserId(principalDetails.getUser().getId());
         inquiry.setCreateAt(LocalDateTime.now());
         inquiry.setUpdateAt(LocalDateTime.now());
         SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);
@@ -81,8 +86,11 @@ public class JdbcInquiryRepository implements InquiryRepository {
     }
 
     @Override
-    public List<Inquiry> findAll(Long userId) {
-        return jdbcTemplate.query("select * from inquiry where userId = ?", inquiryRowmapper(), userId); //userId에 해당하는 문의사항만 출력 select * from inquiry where userId = ?
+    public List<Inquiry> findAll() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Long userId = principalDetails.getUser().getId();
+        return jdbcTemplate.query("select * from inquiry where userId = ?", inquiryRowmapper(), userId);
     }
 
     @Override

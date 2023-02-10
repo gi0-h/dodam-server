@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	// Thymeleaf
+	//Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -32,22 +32,14 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-<<<<<<< HEAD
-	testImplementation 'org.springframework.security:spring-security-test'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-=======
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-<<<<<<< HEAD
-	runtimeOnly 'com.mysql:mysql-connector-java'
->>>>>>> 7d12bd5655e0c6571487e3253128506beba22e58
-=======
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.auth0:java-jwt:3.4.1'
 	implementation 'mysql:mysql-connector-java'
-	runtimeOnly 'com.mysql:mysql-connector-java'	//implementation 'mysql:mysql-connector-java' 과 비교 수정 필요
->>>>>>> 9bff7690b9d2a71c6a66a4f4939a0523f9b72d5f
+	//runtimeOnly 'com.mysql:mysql-connector-java'	//implementation 'mysql:mysql-connector-java' 과 비교 수정 필요
+
 }
 
 tasks.named('test') {

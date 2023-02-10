@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface InquiryRepository {
 //    Inquiry save(Inquiry inquiry);
 
-    Inquiry save(Inquiry inquiry, MultipartFile file, User user) throws IOException;
+    Inquiry save(Inquiry inquiry, MultipartFile file) throws IOException;
     Optional<Inquiry> findById(Long id);
     Optional<Inquiry> deleteById(Long id);
-    List<Inquiry> findAll(Long userId);
+    List<Inquiry> findAll();
 
     @Transactional
     Inquiry update(Long id, Inquiry inquiry, MultipartFile file) throws IOException;
