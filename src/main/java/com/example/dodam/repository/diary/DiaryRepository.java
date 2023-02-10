@@ -11,7 +11,7 @@ public interface DiaryRepository {
     Diary save(Diary diary);
     String updateDiary(Diary diary);
     String deleteDiary(Integer id);
-    Optional<Diary>  findByDate(String date);
+    Optional<Diary>  findByDate(Integer id , String date);
     List<DiaryList> findAll(Integer id);
     DiaryDetail findDiary(Integer id);
 }
