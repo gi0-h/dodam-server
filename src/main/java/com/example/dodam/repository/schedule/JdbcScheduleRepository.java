@@ -7,12 +7,14 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
 @Repository
 public class JdbcScheduleRepository implements ScheduleRepository{
 
+    String updateQuery = "update schedule set name = ?, repeatStatus = ?, selectDate = ?, selectDay = ?, startDate = ?, endDate = ?, startTime = ?, endTime = ?, color = ? where scheduleId = ?";
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     @Autowired
@@ -33,5 +35,15 @@ public class JdbcScheduleRepository implements ScheduleRepository{
         Number key = jdbcInsert.executeAndReturnKey(param);
         schedule.setScheduleId(key.intValue());         // scheduleId를 schedule에 저장
         return schedule.getScheduleId();
+    }
+
+    // 일정 수정
+    @Override
+    @Transactional
+    public Integer update(Schedule schedule) {
+        Integer id = schedule.getScheduleId();
+        jdbcTemplate.update(updateQuery, schedule.getName(), schedule.getRepeatStatus(), schedule.getSelectDate(), schedule.getSelectDay(),
+                schedule.getStartDate(), schedule.getEndDate(), schedule.getStartTime(), schedule.getEndTime(), schedule.getColor(), id );
+        return id;
     }
 }

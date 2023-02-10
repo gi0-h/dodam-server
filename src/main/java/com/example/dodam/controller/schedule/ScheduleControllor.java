@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -23,5 +24,13 @@ public class ScheduleControllor {
     @PostMapping("/schedule")
     public ResponseEntity<?> addSchedule(@RequestBody Schedule schedule){
         return new ResponseEntity<>(scheduleService.save(schedule), HttpStatus.CREATED);
+    }
+
+    // 일정 수정
+    // Schedule 객체 전달, 완료 메세지 반환
+    @PutMapping("/schedule")
+    public ResponseEntity<?> updateSchedule(@RequestBody Schedule updateSchedule){
+        scheduleService.update(updateSchedule); //scheduleId 반환
+        return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
 }

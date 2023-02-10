@@ -19,4 +19,9 @@ public class ScheduleService {
     public Integer save(Schedule schedule){
         return scheduleRepository.save(schedule);
     }
+
+    // 일정 수정
+    public Integer update(Schedule schedule){
+        return scheduleRepository.update(schedule);
+    }
 }

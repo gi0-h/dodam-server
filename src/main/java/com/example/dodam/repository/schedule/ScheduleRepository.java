@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ScheduleRepository {
     Integer save(Schedule schedule);    // 일정 등록
+    Integer update(Schedule schedule);    // 일정 수정
 
 
 }
