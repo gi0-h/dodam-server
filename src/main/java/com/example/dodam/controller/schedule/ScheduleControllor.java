@@ -40,4 +40,18 @@ public class ScheduleControllor {
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 
+    // 일정 목록 조회
+    // userId 전달, List<ScheduleList> 반환
+    @GetMapping("/schedules/{uid}")
+    public ResponseEntity<?> getSchedules(@PathVariable("uid") Integer userId){
+        return new ResponseEntity<>(scheduleService.getSchedules(userId), HttpStatus.OK);
+    }
+
+    // 일정 조회
+    // scheduleId 전달, Schedule 객체 반환
+    @GetMapping("/schedule/{id}")
+    public ResponseEntity<?> getSchedule(@PathVariable("id") Integer scheduleId){
+        return new ResponseEntity<>(scheduleService.getSchedule(scheduleId), HttpStatus.OK);
+    }
+
 }
