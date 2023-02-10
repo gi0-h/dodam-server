@@ -20,7 +20,7 @@ public class OrderDao {
     //전체주문조회
     public List<GetOrderRes> orderRes(){
 
-        return this.jdbcTemplate.query("select * from diary_order.diaryOrder",
+        return this.jdbcTemplate.query("select * from dodam.diaryOrder",
                 (rs, rowNum)-> new GetOrderRes(
 
                         rs.getInt("orderId"),
@@ -43,7 +43,7 @@ public class OrderDao {
     //상세 전체주문조회
     public List<GetOrderDetailRes> orderDetailRes(){
 
-        return this.jdbcTemplate.query("select * from diary_order.orderDetail",
+        return this.jdbcTemplate.query("select * from dodam.orderDetail",
                 (rs, rowNum)-> new GetOrderDetailRes(
 
                         rs.getInt("orderDetailId"),
@@ -56,7 +56,7 @@ public class OrderDao {
 
     //주문등록
     public int addOrder(PostOrderReq postorderReq){
-        String createOrderQuery= "Insert into diary_order.diaryOrder(userId, address, babyName, diaryTitle, startDate, " +
+        String createOrderQuery= "Insert into dodam.diaryOrder(userId, address, babyName, diaryTitle, startDate, " +
                 "endDate, templateNo) VALUES(?,?,?,?,?,?,?)";
         Object[] createOrderParams=new Object[]{
                 postorderReq.getUserId(), postorderReq.getAddress(), postorderReq.getBabyName(), postorderReq.getDiaryTitle(),
@@ -71,7 +71,7 @@ public class OrderDao {
     //상세주문등록(주문을 등록 -> 주문번호(orderId)로 주문상세가 생성됨)
     public int addOrderDetail(PostOrderDetailReq postorderDetailReq, int orderId){
         postorderDetailReq.setOrderId(orderId);  //매개변수 orderId로 PostOrderDetailReq의 orderId를 초기화 ex) 주문번호 2
-        String createOrderDetailQuery= "Insert into diary_order.orderDetail(orderId, deliveryService, " +
+        String createOrderDetailQuery= "Insert into dodam.orderDetail(orderId, deliveryService, " +
                 "invoiceNo, deliveryStatus) VALUES(?,?,?,?)";  //네 가지 변수가 들어갈 곳
         Object[] createOrderDetailParams=new Object[]{  //postorderDetailReq.getOrderId()에는 주문번호 2가 들어있음
                postorderDetailReq.getOrderId(), postorderDetailReq.getDeliveryService(), postorderDetailReq.getInvoiceNo(),

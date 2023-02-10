@@ -4,11 +4,11 @@ import com.example.dodam.domain.user.User;
 import java.util.Optional;
 
 public interface UserRepository {
+	/**
+	 * email -> loginId로 변경
+	 */
+	Optional<User> findByUsername(String email);
     User save(User user);
-
-    /**
-     * email -> loginId로 변경
-     */
     Optional<User> findByEmail(String email);
     void deleteById(Long userId);
     User Update(Long userId, User user);

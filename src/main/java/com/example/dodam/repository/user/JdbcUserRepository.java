@@ -1,6 +1,7 @@
 package com.example.dodam.repository.user;
 
 import com.example.dodam.domain.user.User;
+
 import com.example.dodam.utils.QueryGenerator;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -10,6 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -47,6 +53,18 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
+        String sql = "select * from user where email = :email";
+        try {
+            Map<String, Object> param = Map.of("email", email);
+            User user = template.queryForObject(sql, param, userRowMapper());
+            return Optional.ofNullable(user);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findByUsername(String email) {    // 이거 수정해야함
         String sql = "select * from user where email = :email";
         try {
             Map<String, Object> param = Map.of("email", email);
