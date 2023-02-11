@@ -11,11 +11,11 @@ import java.util.List;
 public interface StepRepository extends JpaRepository<Step, Long> {
     Step findByStepId(int stepId);
 
-    List<Step> findAllByUserId(int userId);
+    List<Step> findAllByUserId(Long userId);
 
-    Step findByStepOrderAndUserId(int order, int userId);
+    Step findByStepOrderAndUserId(int order, Long userId);
 
-    Long countStepByUserId(int userId);
+    Long countStepByUserId(Long userId);
 
     @Modifying(clearAutomatically = true)
     @Query("update Step s set s.stepOrder = s.stepOrder - 1 " +

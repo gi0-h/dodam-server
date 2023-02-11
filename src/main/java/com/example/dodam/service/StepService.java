@@ -1,12 +1,17 @@
 package com.example.dodam.service;
 
+import com.example.dodam.config.auth.PrincipalDetails;
+import com.example.dodam.domain.user.User;
 import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
 import com.example.dodam.dto.StepSelectDto;
 import com.example.dodam.domain.Step;
 import com.example.dodam.repository.StepRepository;
+import com.example.dodam.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,18 +26,12 @@ import java.util.List;
 public class StepService {
 
     private final StepRepository stepRepository;
-//    private final MemberService memberService;
 
-    public StepMainDto getMainStep(int userId) {
-//        String memberNickName = memberservice.getMemberNickName(userId);
-//        LocalDate startDate = memberService.getStartDate();
-        LocalDate startDate = LocalDate.of(2023,01,01);
-//        int dDay = Period.between(startDate,LocalDate.now()).getDays();
+    public StepMainDto getMainStep(User user) {
         LocalDate now = LocalDate.now();
-        int dDay = (int) ChronoUnit.DAYS.between(startDate,now);
-        String memberNickName = "temp";
+        int dDay = (int) ChronoUnit.DAYS.between(LocalDate.from(user.getStartAt()),now);
 
-        List<Step> stepAll = stepRepository.findAllByUserId(userId);
+        List<Step> stepAll = stepRepository.findAllByUserId(user.getId());
         List<String> nowStep = new ArrayList<>();
 
         for(int i=0; i<stepAll.size(); i++){
@@ -45,14 +44,13 @@ public class StepService {
                 .allStep(stepAll)
                 .nowStep(nowStep)
                 .dDay(dDay)
-                .memberNickName(memberNickName).build();
+                .memberNickName(user.getNickname()).build();
 
     }
 
-    public StepEnrollDto getStepEnroll(int userId) {
-//        LocalDate startDate = memberService.getStartDate();
-        LocalDate startDate = LocalDate.now(); //temp
-        List<Step> stepAll = stepRepository.findAllByUserId(userId);
+    public StepEnrollDto getStepEnroll(User user) {
+        LocalDate startDate = LocalDate.from(user.getStartAt());
+        List<Step> stepAll = stepRepository.findAllByUserId(user.getId());
 
         return StepEnrollDto.builder()
                 .startDate(startDate)
@@ -60,7 +58,7 @@ public class StepService {
                 .build();
     }
 
-    public void changeOrder(int userId, int firstOrder, int secondOrder) {
+    public void changeOrder(Long userId, int firstOrder, int secondOrder) {
         Step step1 = stepRepository.findByStepOrderAndUserId(firstOrder,userId);
         Step step2 = stepRepository.findByStepOrderAndUserId(secondOrder,userId);
 
@@ -84,7 +82,7 @@ public class StepService {
         stepRepository.updateOrder(stepOrder);
     }
 
-    public int addStep(int userId, StepAddDto dto) {
+    public int addStep(Long userId, StepAddDto dto) {
         Long order = stepRepository.countStepByUserId(userId);
         Step step = Step.builder()
                 .userId(userId)

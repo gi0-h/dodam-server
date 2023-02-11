@@ -21,7 +21,7 @@ class StepRepositoryTest {
 
     public Step createStep(){
         Step step = Step.builder()
-                .userId(0)
+                .userId(0L)
                 .stepName("first")
                 .startDate(LocalDate.of(2023,01,01))
                 .endDate(LocalDate.now())
