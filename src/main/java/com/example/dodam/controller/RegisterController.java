@@ -11,8 +11,10 @@ import com.example.dodam.service.user.SmsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,19 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("user/register")
 public class RegisterController {
 
     private final RegisterService registerService;
     private final FileUploadService fileUploadService;
     private final SmsService smsService;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegisterController(RegisterService registerService, FileUploadService fileUploadService,
-        SmsService smsService) {
-        this.registerService = registerService;
-        this.fileUploadService = fileUploadService;
-        this.smsService = smsService;
-    }
 
     @PostMapping("/sms")
     public ResponseEntity<SmsResponse> getSms(@RequestParam String phone)
@@ -56,6 +54,7 @@ public class RegisterController {
         request.setImagePath(imagePath);
         try {
             smsService.checkPhone(request.getPhone());
+            request.setPassword(passwordEncoder.encode(request.getPassword()));
             return ResponseEntity.ok(UserResponse.of(registerService.register(request)));
         } catch (Exception e) {
             fileUploadService.deleteFile(imagePath);

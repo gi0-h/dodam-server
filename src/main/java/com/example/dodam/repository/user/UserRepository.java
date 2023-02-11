@@ -4,9 +4,6 @@ import com.example.dodam.domain.user.User;
 import java.util.Optional;
 
 public interface UserRepository {
-	/**
-	 * email -> loginId로 변경
-	 */
 	Optional<User> findByUsername(String email);
     User save(User user);
     Optional<User> findByEmail(String email);
@@ -14,4 +11,5 @@ public interface UserRepository {
     User Update(Long userId, User user);
     Optional<User> findByNickName(String nickname);
     Optional<User> findById(Long id);
+    void deleteImage(Long userId);
 }
