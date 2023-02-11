@@ -1,11 +1,15 @@
 package com.example.dodam.controller;
 
+import com.example.dodam.config.auth.PrincipalDetails;
+import com.example.dodam.domain.user.User;
 import com.example.dodam.dto.*;
 import com.example.dodam.domain.Step;
 import com.example.dodam.service.StepService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,21 +19,30 @@ public class StepController {
 
     private final StepService stepService;
 
-    @GetMapping("/main/{id}")
-    public StepMainDto main(@PathVariable Integer id){
-        return stepService.getMainStep(id);
+    @GetMapping("/main")
+    public StepMainDto main(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        User user = principalDetails.getUser();
+        return stepService.getMainStep(user);
     }
 
-    @GetMapping("/enroll/{id}")
-    public StepEnrollDto getStepEnroll(@PathVariable Integer id) {
-        return stepService.getStepEnroll(id);
+    @GetMapping("/enroll")
+    public StepEnrollDto getStepEnroll() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        User user = principalDetails.getUser();
+        return stepService.getStepEnroll(user);
     }
 
-    @PutMapping("/enroll/{id}")
-    public @ResponseBody ResponseEntity changeOrder(@PathVariable Integer id, @RequestBody StepChangeOrderDto dto){
-        stepService.changeOrder(id, dto.getFirstOrder(), dto.getSecondOrder());
+    @PutMapping("/enroll")
+    public @ResponseBody ResponseEntity changeOrder(@RequestBody StepChangeOrderDto dto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Long userId = principalDetails.getUser().getId();
+        stepService.changeOrder(userId, dto.getFirstOrder(), dto.getSecondOrder());
 
-        return new ResponseEntity<Integer>(id, HttpStatus.OK);
+        return new ResponseEntity<Long>(userId, HttpStatus.OK);
     }
 
     @GetMapping("/select")
@@ -49,9 +62,12 @@ public class StepController {
         return new ResponseEntity<Integer>(stepId, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public @ResponseBody ResponseEntity add(@PathVariable Integer id,@RequestBody StepAddDto dto){
-        Integer stepId = stepService.addStep(id, dto);
+    @PostMapping("/")
+    public @ResponseBody ResponseEntity add(@RequestBody StepAddDto dto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Long userId = principalDetails.getUser().getId();
+        Integer stepId = stepService.addStep(userId, dto);
         return new ResponseEntity<Integer>(stepId, HttpStatus.OK);
     }
 }

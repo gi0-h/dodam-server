@@ -1,7 +1,6 @@
 package com.example.dodam;
 
 import com.example.dodam.dto.StepAddDto;
-import com.example.dodam.dto.StepSelectDto;
 import com.example.dodam.service.StepService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
-public class InitDb {   //샘플db
+public class StepInitDb {   //샘플db
     private final InitService initService;
 
     @PostConstruct
@@ -34,10 +33,10 @@ public class InitDb {   //샘플db
                     .endDate(LocalDate.now())
                     .build();
 
-            stepService.addStep(0,dto);
-            stepService.addStep(0,dto);
-            stepService.addStep(1,dto);
-            stepService.addStep(0,dto);
+            stepService.addStep(0L,dto);
+            stepService.addStep(0L,dto);
+            stepService.addStep(1L,dto);
+            stepService.addStep(0L,dto);
 
         }
     }

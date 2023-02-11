@@ -1,5 +1,6 @@
 package com.example.dodam.service;
 
+import com.example.dodam.domain.user.User;
 import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
@@ -27,7 +28,7 @@ class StepServiceTest {
 
     public Step createStep(){
         Step step = Step.builder()
-                .userId(0)
+                .userId(0L)
                 .stepName("first")
                 .startDate(LocalDate.of(2023,01,01))
                 .endDate(LocalDate.now())
@@ -42,11 +43,11 @@ class StepServiceTest {
                 .endDate(LocalDate.now())
                 .build();
 
-        stepService.addStep(0,dto);
-        stepService.addStep(0,dto);
-        stepService.addStep(1,dto);
-        stepService.addStep(0,dto);
-        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0));
+        stepService.addStep(0L,dto);
+        stepService.addStep(0L,dto);
+        stepService.addStep(1L,dto);
+        stepService.addStep(0L,dto);
+        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0L));
     }
 
     @Test
@@ -59,16 +60,16 @@ class StepServiceTest {
                 .endDate(LocalDate.now())
                 .build();
         //when
-        stepService.addStep(0,dto);
-        stepService.addStep(0,dto);
-        stepService.addStep(1,dto);
-        stepService.addStep(0,dto);
+        stepService.addStep(0L,dto);
+        stepService.addStep(0L,dto);
+        stepService.addStep(1L,dto);
+        stepService.addStep(0L,dto);
         //then
         //저장확인
-        Assertions.assertThat(stepRepository.findAllByUserId(0).get(0).getUserId()).isEqualTo(0);
+        Assertions.assertThat(stepRepository.findAllByUserId(0L).get(0).getUserId()).isEqualTo(0);
         //순서확인
-        Assertions.assertThat(stepRepository.findAllByUserId(0).get(2).getStepOrder()).isEqualTo(2);
-        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0));
+        Assertions.assertThat(stepRepository.findAllByUserId(0L).get(2).getStepOrder()).isEqualTo(2);
+        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0L));
         System.out.println("stepRepository = " + stepRepository.findAll());
     }
 
@@ -82,8 +83,8 @@ class StepServiceTest {
         stepService.delete(2);
 
         //then
-        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0));
-        Assertions.assertThat(stepRepository.findAllByUserId(0).get(1).getStepOrder()).isEqualTo(1);
+        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0L));
+        Assertions.assertThat(stepRepository.findAllByUserId(0L).get(1).getStepOrder()).isEqualTo(1);
 
     }
 
@@ -120,9 +121,9 @@ class StepServiceTest {
         stepService.changeStep(dto);
 
         //when
-        Step stepOrigin0 = stepRepository.findByStepOrderAndUserId(0,0);
-        Step stepOrigin1 = stepRepository.findByStepOrderAndUserId(1,0);
-        stepService.changeOrder(0,0,1);
+        Step stepOrigin0 = stepRepository.findByStepOrderAndUserId(0,0L);
+        Step stepOrigin1 = stepRepository.findByStepOrderAndUserId(1,0L);
+        stepService.changeOrder(0L,0,1);
 
         //then
         Assertions.assertThat(stepOrigin0.getStepOrder()).isEqualTo(1);
@@ -132,24 +133,24 @@ class StepServiceTest {
 
     @Test
     @DisplayName("단계등록Get Test")
-    public void getStepEnrollTest(){
+    public void getStepEnrollTest(User user){
         //given
         createEx();
 
         //when
-        StepEnrollDto stepEnrollDto =  stepService.getStepEnroll(0);
+        StepEnrollDto stepEnrollDto =  stepService.getStepEnroll(user);
 
         //then
         System.out.println("stepEnrollDto.toString() = " + stepEnrollDto.toString());
     }
 
     @Test
-    public void getMainStepTest(){
+    public void getMainStepTest(User user){
         //given
         createEx();
 
         //when
-        StepMainDto stepMainDto = stepService.getMainStep(0);
+        StepMainDto stepMainDto = stepService.getMainStep(user);
         
         //then
         System.out.println("stepRepository.findAll() = " + stepRepository.findAll());

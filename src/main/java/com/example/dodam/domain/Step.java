@@ -19,7 +19,7 @@ public class Step {
     private int stepId;
 
     @Column(nullable = false)
-    private int userId;
+    private Long userId;
 
     @Column
     private String stepName;
