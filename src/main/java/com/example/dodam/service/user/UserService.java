@@ -1,4 +1,4 @@
-package com.example.dodam.service;
+package com.example.dodam.service.user;
 
 import com.example.dodam.common.exception.EntityNotFoundException;
 import com.example.dodam.common.exception.ErrorCode;

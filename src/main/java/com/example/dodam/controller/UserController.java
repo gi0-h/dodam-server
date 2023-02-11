@@ -2,11 +2,10 @@ package com.example.dodam.controller;
 
 import com.example.dodam.domain.user.UpdateUserRequest;
 import com.example.dodam.domain.user.UserResponse;
-import com.example.dodam.service.FileUploadService;
-import com.example.dodam.service.UserService;
+import com.example.dodam.service.user.FileUploadService;
+import com.example.dodam.service.user.UserService;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
