@@ -1,4 +1,4 @@
-package com.example.dodam.service;
+package com.example.dodam.service.user;
 
 import com.example.dodam.common.exception.EntityNotFoundException;
 import com.example.dodam.common.exception.ErrorCode;
@@ -25,9 +25,11 @@ public class UserService {
         return userRepository.Update(user.getId(), updateUserRequest.toUser());
     }
 
-    public void delete(String email) {
-        User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
-        userRepository.deleteById(user.getId());
+    public void delete(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    public void deleteImage(Long userId) {
+        userRepository.deleteImage(userId);
     }
 }

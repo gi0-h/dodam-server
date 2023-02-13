@@ -17,10 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateUserRequest {
-    @Email
-    private String originalEmail;
-    @Email
-    private String newEmail;
     private String password;
     private String phone;
     private String nickname;
@@ -35,7 +31,6 @@ public class UpdateUserRequest {
     public User toUser() {
         return User.builder()
             .password(password)
-            .email(newEmail)
             .phone(phone)
             .nickname(nickname)
             .status(status)

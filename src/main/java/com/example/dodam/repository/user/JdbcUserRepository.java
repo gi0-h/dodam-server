@@ -121,6 +121,13 @@ public class JdbcUserRepository implements UserRepository {
         }
     }
 
+    @Override
+    public void deleteImage(Long userId) {
+        String sql = "UPDATE USER SET imgPath = null where id = :id";
+        Map<String, Object> param = Map.of("id", userId);
+        template.update(sql, param);
+    }
+
     private RowMapper<User> userRowMapper() {
         return BeanPropertyRowMapper.newInstance(User.class);
     }

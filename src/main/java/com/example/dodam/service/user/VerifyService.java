@@ -1,4 +1,4 @@
-package com.example.dodam.service;
+package com.example.dodam.service.user;
 
 import static com.example.dodam.common.exception.ErrorCode.FAIL_VERIFY;
 import static com.example.dodam.common.exception.ErrorCode.NOT_SEND_MESSAGE;
