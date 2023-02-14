@@ -18,10 +18,11 @@ public class ScheduleControllor {
     }
 
     // 일정 등록
-    // Schedule 객체 전달, scheduleId 반환
+    // Schedule 객체 전달, 완료 메세지 반환
     @PostMapping("/schedule")
     public ResponseEntity<?> addSchedule(@RequestBody Schedule schedule){
-        return new ResponseEntity<>(scheduleService.save(schedule), HttpStatus.CREATED);
+        scheduleService.save(schedule); //scheduleId 반환
+        return new ResponseEntity<>("등록 완료", HttpStatus.CREATED);
     }
 
     // 일정 수정
