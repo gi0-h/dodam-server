@@ -64,7 +64,7 @@ public class OrderDao {
         };
         this.jdbcTemplate.update(createOrderQuery, createOrderParams);
 
-        return this.jdbcTemplate.queryForObject("select last_insert_id()",int.class);  ///????
+        return this.jdbcTemplate.queryForObject("select last_insert_id()",int.class);
     }
 
 
@@ -74,7 +74,7 @@ public class OrderDao {
         String createOrderDetailQuery= "Insert into dodam.orderDetail(orderId, deliveryService, " +
                 "invoiceNo, deliveryStatus) VALUES(?,?,?,?)";  //네 가지 변수가 들어갈 곳
         Object[] createOrderDetailParams=new Object[]{  //postorderDetailReq.getOrderId()에는 주문번호 2가 들어있음
-               postorderDetailReq.getOrderId(), postorderDetailReq.getDeliveryService(), postorderDetailReq.getInvoiceNo(),
+               orderId, postorderDetailReq.getDeliveryService(), postorderDetailReq.getInvoiceNo(),
                 postorderDetailReq.getDeliveryStatus()
         };
         this.jdbcTemplate.update(createOrderDetailQuery, createOrderDetailParams);
@@ -83,17 +83,34 @@ public class OrderDao {
 
     }
 
-    //주문정보 변경
+
+    // 해당 orderId를 갖는 상세주문조회
+    public GetOrderDetailRes getOrderDetail(int orderId) {
+        String getOrderDetailQuery = "select * from orderDetail where orderId = ?"; // 해당 orderId를 만족하는 상세주문을 조회하는 쿼리문
+        int getOrderDetailParams = orderId;
+        return this.jdbcTemplate.queryForObject(getOrderDetailQuery,
+                (rs, rowNum) -> new GetOrderDetailRes(
+                        //sql에서 필요한 변수들
+                        rs.getInt("orderDetailId"),
+                        rs.getInt("orderId"),
+                        rs.getString("deliveryService"),
+                        rs.getString("invoiceNo"),
+                        rs.getString("deliveryStatus")),
+                getOrderDetailParams);
+    }
+
+
+    //주문 변경
     public int modifyOrder(PatchOrderReq patchOrderReq) {
         //update sql문 작성
         String modifyOrderQuery = "update diaryOrder set address = ?, babyName = ?,diaryTitle = ?,startDate = ?," +
-                "endDate = ?,templateNo = ?, deletedTime=? where userId = ? "; // 해당 userId를 만족하는 주문정보를 해당 ~~~으로 변경한다.
+                "endDate = ?,templateNo = ?, deletedTime=? where orderId = ? "; // 해당 orderId를 만족하는 주문정보를 해당 ~~~으로 변경한다.
 
         Object[] modifyOrderParams = new Object[]{patchOrderReq.getAddress(),
                 patchOrderReq.getBabyName(),patchOrderReq.getDiaryTitle(),patchOrderReq.getStartDate(),patchOrderReq.getEndDate(),
-                patchOrderReq.getTemplateNo(), patchOrderReq.getDeletedTime(), patchOrderReq.getUserId()}; // 주입될 값들(변경할값, userId) 순!!!
+                patchOrderReq.getTemplateNo(), patchOrderReq.getDeletedTime(), patchOrderReq.getOrderId()}; // 주입될 값들(변경할값, orderId) 순!!!
 
-        return this.jdbcTemplate.update(modifyOrderQuery, modifyOrderParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+        return this.jdbcTemplate.update(modifyOrderQuery, modifyOrderParams);
     }
 
     // 해당 userId를 갖는 주문조회
@@ -115,45 +132,38 @@ public class OrderDao {
                         rs.getString("updateTime"),
                         rs.getString("isDeleted"),
                         rs.getString("deletedTime")),
-        getOrderParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+                getOrderParams);
     }
 
-    // 해당 userId를 갖는 상세주문조회
-    public GetOrderDetailRes getOrderDetail(int orderId) {
-        String getOrderDetailQuery = "select * from orderDetail where orderId = ?"; // 해당 orderId를 만족하는 상세주문을 조회하는 쿼리문
-        int getOrderDetailParams = orderId;
-        return this.jdbcTemplate.queryForObject(getOrderDetailQuery,
-                (rs, rowNum) -> new GetOrderDetailRes(
+    /////////////[주문변경], [주문삭제] 에서 사용하기 위해 만든 함수/////////////
+    public GetOrderRes getOrder2(int orderId) {
+        String getOrderQuery = "select * from diaryOrder where orderId = ?"; // 해당 userId를 만족하는 주문을 조회하는 쿼리문
+        int getOrderParams = orderId;
+        return this.jdbcTemplate.queryForObject(getOrderQuery,
+                (rs, rowNum) -> new GetOrderRes(
                         //sql에서 필요한 변수들
-                        rs.getInt("orderDetailId"),
                         rs.getInt("orderId"),
-                        rs.getString("deliveryService"),
-                        rs.getString("invoiceNo"),
-                        rs.getString("deliveryStatus")),
-                getOrderDetailParams); // 한 개의 주문정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+                        rs.getInt("userId"),
+                        rs.getString("address"),
+                        rs.getString("babyName"),
+                        rs.getString("diaryTitle"),
+                        rs.getString("startDate"),
+                        rs.getString("endDate"),
+                        rs.getInt("templateNo"),
+                        rs.getString("createTime"),
+                        rs.getString("updateTime"),
+                        rs.getString("isDeleted"),
+                        rs.getString("deletedTime")),
+                getOrderParams);
     }
 
-    //***********************************************************************************************************
-    /*
-    // 해당 userId를 갖는 주문삭제(사용x)
-    public int deleteOrder(DeleteOrderReq deleteOrderReq) {
 
-        //delete sql문 작성
-        String deleteOrderQuery = "DELETE FROM diaryOrder where userId = ? "; // 해당 userId를 만족하는 주문정보를 삭제한다.
-        Object[] deleteOrderParams = new Object[]{ deleteOrderReq.getUserId()}; // 주입될 값들(nickname, userIdx) 순!!!
-
-        return this.jdbcTemplate.update(deleteOrderQuery,deleteOrderParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
-    }
-
-     */
-
-
-    // 해당 userId를 갖는 주문삭제
+    // 해당 orderId를 갖는 주문삭제
     public int deleteOrder(DeleteOrderReq deleteOrderReq) {
         //update sql문 작성, 요청이 오면 isDeleted 값을 Y로 만들어버림, **postman에서 Body 입력 없음**
-        String deleteOrderQuery = "update diaryOrder set isDeleted=? where userId = ? "; // 해당 userId를 만족하는 주문정보를 해당 ~~~으로 변경한다.
-        Object[] deleteOrderParams = new Object[]{"Y", deleteOrderReq.getUserId()}; // 주입될 값들(isDeleted, userId) 순!!!
+        String deleteOrderQuery = "update diaryOrder set isDeleted=? where orderId = ? "; // 해당 orderId를 만족하는 주문정보를 해당 ~~~으로 변경한다.
+        Object[] deleteOrderParams = new Object[]{"Y", deleteOrderReq.getOrderId()}; // 주입될 값들(isDeleted, orderId) 순!!!
 
-        return this.jdbcTemplate.update(deleteOrderQuery, deleteOrderParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+        return this.jdbcTemplate.update(deleteOrderQuery, deleteOrderParams);
     }
 }

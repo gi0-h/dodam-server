@@ -6,17 +6,11 @@ import lombok.*;
 @Setter // 해당 클래스에 대한 설정자 생성
 @AllArgsConstructor // 해당 클래스의 모든 멤버 변수(userIdx, nickname)를 받는 생성자를 생성
 @NoArgsConstructor(access = AccessLevel.PROTECTED)  // 해당 클래스의 파라미터가 없는 생성자를 생성, 접근제한자를 PROTECTED로 설정.
-/*
- * Req.java: From Client To Server
- * 주문정보 수정 요청(Patch Request)을 하기 위해 서버에 전달할 데이터의 형태
- */
-public class PatchOrderReq {  //수정에 사용되는 모든 변수들
-    /* 기존 코드
-    private int userIdx;
-    private String nickname;
 
-     */
-    private int userId;   //where 절에 사용하는 변수
+public class PatchOrderReq {  //수정에 사용되는 모든 변수들
+
+    //where 절에 사용하는 변수
+    private int orderId;
 
     //수정할 변수들
     private  String address;    //주소

@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
-public class PostOrderRes {
-    private int orderId;   //주문아이디
 
+public class PostOrderRes {
+    private String result;   //주문등록 결과 메시지
 }
 

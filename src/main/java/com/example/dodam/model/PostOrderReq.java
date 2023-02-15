@@ -22,7 +22,5 @@ public class PostOrderReq {
     private  String updateTime;
     private  String isDeleted;
     private  String deletedTime;
-
-
 }
 

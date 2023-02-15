@@ -14,15 +14,6 @@ import lombok.*;
  * Order 클래스는 스프링에서 사용하는 Object이다.(내부에서 사용하기 위한 객체라고 보면 된다.)
  */
 public class Order {
-
-    /* 기존 코드
-    /* 기존 코드
-    private int userIdx;
-    private String email;
-    private String password;
-    private String nickname;
-
-     */
     //수정에 필요한 모든 변수들
     private int orderId;  //주문아이디(자동생성됨)   //없어도 될 것 같음
     private int userId;        //유저아이디
@@ -36,7 +27,4 @@ public class Order {
     private  String updateTime;   //주문업데이트시간
     public   String isDeleted;    //주문삭제여부
     private  String deletedTime;   //삭제일시
-
-
-
 }

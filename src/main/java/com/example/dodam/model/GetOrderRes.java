@@ -24,8 +24,5 @@ public class GetOrderRes {
     private  String updateTime;   //주문업데이트시간
     private  String isDeleted;    //주문삭제여부
     private  String deletedTime;   //삭제일시
-
-
-
 }
 

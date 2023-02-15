@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 //@NoArgsConstructor
 public class PostOrderDetailRes {
-    private int orderDetailId;   //상세주문아이디(자동생성됨)
+    private String result;  //상세 주문 등록 결과 메시지
 
 }
 

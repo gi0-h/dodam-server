@@ -1,6 +1,5 @@
 package com.example.dodam.service.diaryOrder;
 
-import com.example.dodam.config.BaseException;
 import com.example.dodam.model.GetOrderDetailRes;
 import com.example.dodam.model.GetOrderRes;
 import com.example.dodam.repository.diaryOrder.OrderDao;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.dodam.config.BaseResponseStatus.DATABASE_ERROR;
+//import static com.example.dodam.config.BaseResponseStatus.DATABASE_ERROR;
 
 /**
  * * select(조회) 구현
@@ -27,30 +26,29 @@ public class OrderProvider {
         return orderRes;
     }
 
-    //상세 전체주문조회
+
+    //상세주문 전체조회
     public List<GetOrderDetailRes> getOrderDetail(){
         List<GetOrderDetailRes> orderDetailRes=orderDao.orderDetailRes();
         return orderDetailRes;
     }
 
-    // 해당 userId를 갖는 Order 정보 조회
-    public GetOrderRes getOrder(int userId) throws BaseException {
-        try {
+
+    // 해당 userId를 갖는 주문 조회
+    public GetOrderRes getOrder(int userId)  {
             GetOrderRes getOrderRes = orderDao.getOrder(userId);
-            //System.out.println("provider 에서 isDeleted 값 :"+getOrderRes.getIsDeleted());
             return getOrderRes;
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
     }
 
-    // 해당 userId를 갖는 Order 상세 정보 조회
-    public GetOrderDetailRes getOrderDetail(int orderId) throws BaseException {
-        try {
+    /////////////[주문변경],[주문삭제] 에서 사용하기 위해 만든 함수/////////////
+    public GetOrderRes getOrder2(int orderId) {
+        GetOrderRes getOrderRes2 = orderDao.getOrder2(orderId);
+        return getOrderRes2;
+    }
+
+    // 해당 orderId를 갖는 주문 조회
+    public GetOrderDetailRes getOrderDetail(int orderId)  {
             GetOrderDetailRes getOrderDetailRes = orderDao.getOrderDetail(orderId);
             return getOrderDetailRes;
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
     }
 }
